@@ -43,8 +43,7 @@ export default function FooterSection() {
             <div className="flex flex-col gap-1">
               <div>Sunday - 7:30am</div>
               <div>Wednesday - 6:00pm</div>
-              <div>{"Act13:2 -  "}</div>
-              <div>Every Last Saturday 4:00pm</div>
+              <div>{"Act13:2 - Last Saturday 4pm"}</div>
             </div>
           </div>
           <div className="w-full md:w-2/4 px-4 mb-8 md:mb-0">

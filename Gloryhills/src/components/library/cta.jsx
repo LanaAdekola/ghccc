@@ -53,7 +53,7 @@ export const Cta = ({ content }) => {
 
       {/* Blue Overlay */}
       <div
-        className="bg-sky-400 opacity-70"
+        className="bg-sky-400 opacity-20"
         style={{
           position: 'absolute',
           top: 0,
