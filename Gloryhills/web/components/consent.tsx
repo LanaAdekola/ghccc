@@ -1,0 +1,3 @@
+'use client';
+import {useState} from 'react';
+export default function Consent(){const [message,setMessage]=useState('');function save(value:string){localStorage.setItem('ghcc-consent',value);setMessage(value==='granted'?'Optional analytics allowed.':'Optional analytics disabled.');window.dispatchEvent(new Event('ghcc-consent'));if(value==='denied')window.location.reload();}return <><div className="actions" style={{justifyContent:'flex-start'}}><button className="button" onClick={()=>save('granted')}>Allow analytics</button><button className="button light" onClick={()=>save('denied')}>Reject optional analytics</button></div><p role="status">{message}</p></>}

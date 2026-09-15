@@ -1,0 +1,19 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {chromium} from '@playwright/test';
+import AxeBuilder from '@axe-core/playwright';
+import {mkdir,writeFile} from 'node:fs/promises';
+const base='http://127.0.0.1:3000';
+test('Production public routes, mobile navigation, metadata, empty states and accessibility',async()=>{
+ const browser=await chromium.launch({channel:'chrome',headless:true,args:['--no-proxy-server']});const page=await browser.newPage();const errors=[];page.on('pageerror',e=>errors.push(e.message));const routes=['/','/about-us','/leadership','/sermons','/events','/give','/visit-us','/contact','/prayer-request','/plan-your-visit','/cookies'];const results=[];await mkdir('test-results',{recursive:true});
+ for(const route of routes){const response=await page.goto(base+route);assert.equal(response.status(),200,route);assert.equal(await page.locator('h1').count(),1,route);assert.ok(await page.title());assert.ok(await page.locator('link[rel=canonical]').getAttribute('href'));const a=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();results.push({route,violations:a.violations.map(x=>({id:x.id,impact:x.impact,nodes:x.nodes.map(n=>n.target)}))});}
+ await writeFile('test-results/accessibility.json',JSON.stringify(results,null,2));assert.equal(results.flatMap(x=>x.violations).length,0,JSON.stringify(results));
+ for(const width of [320,360,390,768,1024,1280,1440,1920]){await page.setViewportSize({width,height:900});for(const route of ['/','/give','/visit-us','/leadership','/contact']){await page.goto(base+route);assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth),`${route} overflow at ${width}`);}await page.goto(base);await page.screenshot({path:`test-results/home-${width}.png`,fullPage:true});}
+ await page.setViewportSize({width:390,height:844});await page.goto(base);const menu=page.getByRole('button',{name:/Menu/});await menu.click();assert.equal(await menu.getAttribute('aria-expanded'),'true');await page.keyboard.press('Escape');assert.equal(await menu.getAttribute('aria-expanded'),'false');await menu.click();await page.locator('#main-menu').getByRole('link',{name:'Listen',exact:true}).click();await page.waitForURL('**/sermons');assert.equal(await menu.getAttribute('aria-expanded'),'false');assert.ok(await page.getByRole('link',{name:/Spotify/}).getAttribute('href'));
+ await page.goto(base+'/admin');assert.ok(page.url().endsWith('/admin/login'));assert.ok((await page.locator('meta[name=robots]').getAttribute('content')).includes('noindex'));
+ for(const route of ['/made-up','/sermons/unpublished','/events/missing','/gallery/missing'])assert.equal((await page.goto(base+route)).status(),404,route);
+ for(const [old,target] of [['/sermon','/sermons'],['/event','/events'],['/otherdata','/']]){const r=await fetch(base+old,{redirect:'manual'});assert.equal(r.status,308);assert.ok(r.headers.get('location').endsWith(target));}
+ assert.ok((await (await fetch(base+'/sitemap.xml')).text()).includes('/visit-us'));assert.ok((await (await fetch(base+'/robots.txt')).text()).includes('Disallow: /admin'));
+ const invalid=await fetch(base+'/api/submissions',{method:'POST',headers:{origin:'http://localhost:3000','content-type':'application/json'},body:'{}'});assert.ok([400,403].includes(invalid.status));
+ const nojs=await browser.newContext({javaScriptEnabled:false,viewport:{width:320,height:800}});const np=await nojs.newPage();await np.goto(base);assert.ok(await np.getByRole('heading',{level:1}).isVisible());assert.ok(await np.getByRole('link',{name:'Listen',exact:true}).first().isVisible());await nojs.close();assert.deepEqual(errors,[]);await browser.close();
+});

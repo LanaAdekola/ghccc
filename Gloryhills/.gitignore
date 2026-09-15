@@ -25,3 +25,8 @@ public/~partytown
 *.njsproj
 *.sln
 *.sw?
+
+# Migration secrets
+.env
+.env.*
+!.env.example
