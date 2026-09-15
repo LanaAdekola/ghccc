@@ -1,4 +1,4 @@
-# Test results — 2026-09-15
+# Test results — 2026-09-15 (updated 2026-09-16)
 
 ## Passed
 
@@ -13,10 +13,20 @@
 - PostgreSQL policy tests using PGlite execute the migration: anonymous publication filtering, future/draft exclusion, private submissions, storage publication rules, normal-user escalation denial, admin/super-admin distinction, unpublish revocation and atomic rate limiting.
 - New app dependency audit: zero known vulnerabilities. Legacy: 98 (2 critical, 45 high, 39 moderate, 12 low).
 
+### 2026-09-16 run (Node 24.19, Linux, production server, live Supabase project connected)
+
+- `npm run build`, `npm run typecheck`, `npm run lint`: passed.
+- `node --test tests/validation.test.mjs tests/rls.test.mjs tests/http.test.mjs`: passed, including new cases for structured service times, settings link/email rules and admin form data extraction.
+- `node --test tests/browser.test.mjs`: passed. 11 public routes, zero axe (WCAG 2A/2AA/2.1AA) violations, no horizontal overflow at 320/360/390/768/1024/1280/1440/1920. Previous failure was the harness: `@axe-core/playwright` requires a page from `browser.newContext()`.
+- Lighthouse (Chrome, production server) on `/`, `/sermons`, `/give`, `/visit-us`: performance 97–99, accessibility 100, best practices 100, SEO 69. The only failing SEO audit is `is-crawlable`: the app deliberately emits `noindex` unless `NEXT_PUBLIC_SITE_URL` is https. Must be re-run against the real https origin before launch.
+- `node --test tests/live.test.mjs` against the real Supabase project: schema and seed present; anonymous requests see only published, non-future content; `user_roles`, `submissions`, `rate_limits` and `audit_logs` return nothing to anonymous requests; anonymous writes to content, submissions, roles and `consume_rate_limit` are rejected; `church-media` is private and anonymous list/upload fail; a signed-in user without a role cannot write content; an admin can create, publish and unpublish content (public reads gain and lose the row accordingly) but cannot grant roles; a super-admin can change roles. Temporary `devin-live-check-*` Auth users and rows are created and deleted by the test.
+
 ## Blocked / pending
 
-- Browser suite, screenshots, all viewport review, axe and Lighthouse: Chrome SIGABRT under sandbox; computer-use service unavailable. No results fabricated.
-- Real Supabase Auth, Storage and API workflows: user is creating project; no project configuration supplied yet. PGlite results do not replace this verification.
+- Lighthouse SEO against a real https `NEXT_PUBLIC_SITE_URL`: not yet run; expected to clear `is-crawlable`.
+- Administrator browser workflows (sign-in, editing with the new structured forms, preview, publish/unpublish, image upload, role management): API-level behaviour verified in `tests/live.test.mjs`; UI verification pending.
+- Supabase Auth dashboard settings (public signup disabled, password policy, rate limits, redirect URLs) are project settings and still need manual confirmation; they are not verifiable from the anon/service keys.
+- No real administrator account exists yet in the project: create it in the Supabase dashboard and assign `super_admin` per ADMIN_SETUP.md.
 - Form successful persistence/CAPTCHA and live rate limiting: require configured Supabase + Turnstile + server secrets.
 - Real giving copy interaction and administrator workflows: browser + populated project required.
 - GTM Preview/GA4/Ads/Meta validation: no identifiers/accounts supplied.
@@ -32,8 +42,9 @@ npm run build
 npm run typecheck
 npm run lint
 npm run start
-node --test tests/rls.test.mjs tests/http.test.mjs
+node --test tests/validation.test.mjs tests/rls.test.mjs tests/http.test.mjs
 node --test tests/browser.test.mjs
+node --test tests/live.test.mjs   # needs web/.env.local with the real project keys
 ```
 
-`npm test` includes the browser suite and therefore currently fails at browser startup in this environment. Do not remove that gate to claim completion.
+`npm test` includes the browser suite. It passes on Linux with Chrome installed for Playwright. Do not remove that gate to claim completion.
