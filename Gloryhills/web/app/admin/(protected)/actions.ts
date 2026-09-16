@@ -3,9 +3,10 @@ import {redirect} from 'next/navigation';
 import {revalidatePath} from 'next/cache';
 import {requireAdmin,serverDB} from '@/lib/supabase';
 import {contentInput} from '@/lib/validation';
+import {dataFromForm} from '@/lib/fields';
 export async function logout(){const db=await serverDB();await db.auth.signOut();redirect('/admin/login');}
-export async function save(form:FormData){const {db}=await requireAdmin();const id=String(form.get('id')||'new');let data;try{data=JSON.parse(String(form.get('data')||'{}'));}catch{redirect(`/admin/edit/${id}?error=validation`);}
- const parsed=contentInput.safeParse({...Object.fromEntries(form),data});if(!parsed.success)redirect(`/admin/edit/${id}?error=validation`);
+export async function save(form:FormData){const {db}=await requireAdmin();const id=String(form.get('id')||'new');const data=dataFromForm(form.entries());
+ const parsed=contentInput.safeParse({...Object.fromEntries(form),data});if(!parsed.success)redirect(`/admin/edit/${id}?kind=${String(form.get('kind')||'')}&error=${encodeURIComponent(parsed.error.issues[0].message)}`);
  const row={...parsed.data,external_url:parsed.data.external_url||null,starts_at:parsed.data.starts_at?new Date(parsed.data.starts_at).toISOString():null,image_url:parsed.data.image_url||null,published_at:parsed.data.status==='published'?new Date().toISOString():null};
  const result=id==='new'?await db.from('content').insert(row):await db.from('content').update(row).eq('id',id);if(result.error)redirect(`/admin/edit/${id}?error=save`);revalidatePath('/','layout');redirect('/admin?saved=1');
 }
