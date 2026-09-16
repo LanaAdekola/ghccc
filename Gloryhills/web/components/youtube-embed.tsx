@@ -74,21 +74,23 @@ export default function YouTubeEmbed({url, title, aspectRatio = '16 / 9', classN
           }}
         >
           <span
+            className="yt-play-button"
             style={{
               width: 68,
               height: 48,
-              background: 'rgba(116, 22, 42, 0.9)',
+              background: '#FF0000',
               borderRadius: 14,
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               color: '#fff',
-              fontSize: 24,
               boxShadow: '0 4px 20px rgba(0,0,0,0.5)',
               transition: 'transform 0.2s, background 0.2s',
             }}
           >
-            ▶
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="white" aria-hidden="true">
+              <polygon points="6 4 20 12 6 20 6 4" />
+            </svg>
           </span>
         </button>
       )}

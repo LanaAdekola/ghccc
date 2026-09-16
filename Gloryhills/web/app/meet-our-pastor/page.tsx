@@ -6,7 +6,7 @@ import {YouTubeIcon, InstagramIcon, TikTokIcon, FacebookIcon, SpotifyIcon} from 
 
 export const metadata = meta(
   'Meet Our Pastor — Pastor Tobi Omojowo',
-  'Psalmist, pastor, missionary. Learn about the life and ministry of Pastor Tobi Omojowo, Lead Pastor of Glory Hills Community Church.',
+  'Apostle, Prophet, Psalmist. Learn about the life and ministry of Pastor Tobi Omojowo, Lead Pastor of Glory Hills Community Church.',
   '/meet-our-pastor'
 );
 
@@ -25,10 +25,30 @@ export default function MeetOurPastor() {
         />
         <div className="hero-shade" />
         <div className="pastor-hero-content">
-          <p className="eyebrow">GLORY HILLS COMMUNITY CHURCH</p>
-          <h1>Meet Our Pastor</h1>
-          <p className="lead">Pastor Tobi Omojowo</p>
-          <p>Psalmist · Pastor · Missionary</p>
+          <p className="eyebrow" style={{letterSpacing: '0.14em', color: '#ffc1c8'}}>MEET OUR PASTOR</p>
+          <h1>Pastor Tobi Omojowo</h1>
+          <p className="lead">Apostle · Prophet · Psalmist</p>
+          <div className="pastor-hero-actions">
+            <a
+              href="https://www.youtube.com/@tobiomojowo"
+              target="_blank"
+              rel="noreferrer"
+              className="pill-btn pill-btn-gradient"
+              aria-label="Pastor Tobi Omojowo on YouTube"
+            >
+              <YouTubeIcon size={20} />
+              <span>Watch on YouTube</span>
+            </a>
+            <a
+              href="https://wa.me/2348102858665?text=Hello%20Pastor%20Tobi%20Office%2C%20I%20would%20like%20to%20invite%20Pastor%20Tobi%20Omojowo%20to%20minister."
+              target="_blank"
+              rel="noreferrer"
+              className="pill-btn pill-btn-gradient"
+              aria-label="Invite Pastor Tobi"
+            >
+              <span>Invite Pastor Tobi</span>
+            </a>
+          </div>
         </div>
       </section>
 
@@ -45,14 +65,15 @@ export default function MeetOurPastor() {
             />
           </div>
           <div>
-            <p className="eyebrow">WHO IS PASTOR TOBI?</p>
+            <p className="eyebrow">APOSTLE · PROPHET · PSALMIST</p>
             <h2>A life given to Christ and His kingdom.</h2>
             <p>
-              Pastor Tobi Omojowo is a psalmist, pastor, missionary, and the Lead Pastor of Glory Hills Community Church,
-              Lagos State, Nigeria.
+              Pastor Tobi Omojowo is an Apostle, Prophet, Psalmist, and the Lead Pastor of Glory Hills Community Church,
+              Lagos State, Nigeria. He teaches God&apos;s Word with power, clarity and simplicity, and has written tonnes of
+              songs blessing lives everywhere.
             </p>
             <p>
-              An itinerant preacher and passionate worshipper, his love and passion for God and His Kingdom has made him
+              An author, itinerant preacher, and devoted missionary, his love and passion for God and His Kingdom has made him
               serve in different capacities over his many years of walking with the Lord — right before his days in the
               University, during, and even after.
             </p>
@@ -111,7 +132,7 @@ export default function MeetOurPastor() {
             <p className="eyebrow">THE PSALMIST HUB</p>
             <h2>A heart of worship.</h2>
             <p>
-              Pastor Tobi's life of worship has been popularized in recent times leveraging the social media space and has
+              Pastor Tobi&apos;s life of worship has been popularized in recent times leveraging the social media space and has
               been a blessing to millions of lives across the globe. His soul-stirring hymns, prophetic songs, and heartfelt
               praise carry the presence of God into every atmosphere.
             </p>
@@ -132,11 +153,19 @@ export default function MeetOurPastor() {
         </div>
         <div className="pastor-media-grid" style={{marginTop: '48px'}}>
           <div>
-            <h3>Listen — Agbara Wa (Let Power Come)</h3>
-            <YouTubeEmbed url="https://www.youtube.com/watch?v=tZpDjtypfEw" title="Agbara Wa (Let Power Come) — Pastor Tobi Omojowo" />
+            <h3>Cover: Ire Mi De (Oldies)</h3>
+            <YouTubeEmbed url="https://youtu.be/40a-r3mUHRw" title="Cover: Ire Mi De (Oldies) — Pastor Tobi Omojowo" />
           </div>
           <div>
-            <h3>Listen — Olododo L&apos;oluwa (Live)</h3>
+            <h3>Hosanna (feat. Folake Endurance)</h3>
+            <YouTubeEmbed url="https://youtu.be/E4LH3aAliRo" title="Hosanna — Tobi Omojowo ft. Folake Endurance" />
+          </div>
+          <div>
+            <h3>Worship Medley</h3>
+            <YouTubeEmbed url="https://youtu.be/YY0SwV_XA7w" title="Worship Medley — Pastor Tobi Omojowo" />
+          </div>
+          <div>
+            <h3>Olododo L&apos;oluwa (Live)</h3>
             <YouTubeEmbed url="https://www.youtube.com/watch?v=eEVGZPvwpZM" title="Olododo L'oluwa (Live) — Pastor Tobi Omojowo" />
           </div>
         </div>
@@ -266,7 +295,15 @@ export default function MeetOurPastor() {
             <FacebookIcon size={28} />
           </a>
         </div>
-        <div style={{display: 'flex', gap: '12px', flexWrap: 'wrap', justifyContent: 'center'}}>
+        <div style={{display: 'flex', gap: '12px', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center'}}>
+          <a
+            className="pill-btn pill-btn-gradient"
+            href="https://wa.me/2348102858665?text=Hello%20Pastor%20Tobi%20Office%2C%20I%20would%20like%20to%20invite%20Pastor%20Tobi%20Omojowo%20to%20minister."
+            target="_blank"
+            rel="noreferrer"
+          >
+            Invite Pastor Tobi
+          </a>
           <Link className="button" href="/contact">
             Get in touch
           </Link>
