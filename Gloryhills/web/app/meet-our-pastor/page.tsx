@@ -3,6 +3,7 @@ import Link from 'next/link';
 import {meta} from '@/lib/seo';
 import YouTubeEmbed from '@/components/youtube-embed';
 import {YouTubeIcon, InstagramIcon, TikTokIcon, FacebookIcon, SpotifyIcon} from '@/components/icons';
+import AnimatedStats from '@/components/animated-stats';
 
 export const metadata = meta(
   'Meet Our Pastor — Pastor Tobi Omojowo',
@@ -107,23 +108,8 @@ export default function MeetOurPastor() {
         </div>
       </section>
 
-      {/* ── Stats ───────────────────────────────────── */}
-      <section className="pastor-stats">
-        <div className="pastor-stats-grid">
-          <div className="stat-item">
-            <span className="stat-number">15+</span>
-            <span className="stat-label">Years in Ministry</span>
-          </div>
-          <div className="stat-item">
-            <span className="stat-number">7,000+</span>
-            <span className="stat-label">Songs Written</span>
-          </div>
-          <div className="stat-item">
-            <span className="stat-number">3,000+</span>
-            <span className="stat-label">Sermons Preached</span>
-          </div>
-        </div>
-      </section>
+      {/* ── Stats (Animated on scroll) ─────────────── */}
+      <AnimatedStats />
 
       {/* ── The Psalmist Hub ────────────────────────── */}
       <section className="section pastor-section">

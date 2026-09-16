@@ -111,14 +111,25 @@ p {
 
 /* Header & Navigation */
 .site-header {
-  padding: 18px var(--space);
+  position: fixed;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 32px);
+  max-width: var(--container);
+  padding: 10px 24px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 24px;
-  background: white;
-  position: relative;
-  z-index: 100;
+  gap: 20px;
+  z-index: 1000;
+  border-radius: 9999px;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.84) 0%, rgba(247, 243, 237, 0.80) 50%, rgba(255, 240, 243, 0.84) 100%);
+  border: 1px solid rgba(181, 34, 59, 0.16);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.07), 0 0 24px rgba(220, 20, 60, 0.10);
+  transition: all 0.3s ease;
 }
 
 .brand-link {
@@ -561,7 +572,7 @@ p {
   z-index: 2;
   max-width: 1280px;
   margin: auto;
-  padding: 75px var(--space) 55px;
+  padding: 105px var(--space) 55px;
   width: 100%;
   text-align: left;
 }
@@ -693,7 +704,7 @@ footer {
 
 /* Content & Cards */
 .page-heading {
-  padding: 75px var(--space) 50px;
+  padding: 110px var(--space) 50px;
   max-width: 1440px;
   margin: auto;
 }
@@ -842,9 +853,19 @@ footer {
 
 @media (max-width: 760px) {
   .site-header {
-    padding: 14px 20px;
-    position: relative;
+    top: 12px;
+    width: calc(100% - 24px);
+    padding: 8px 16px;
+    position: fixed;
     z-index: 10000;
+  }
+
+  .site-header.menu-open {
+    background: transparent;
+    border-color: transparent;
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
   }
 
   .site-logo-desktop {
@@ -1453,7 +1474,7 @@ footer {
   margin-top: 8px;
 }
 
-/* Pill-like Gradient Red Buttons */
+/* Pill-like Buttons with Background Blend, Blur & 10% Gradient Red Glow */
 .pill-btn {
   display: inline-flex;
   align-items: center;
@@ -1467,20 +1488,23 @@ footer {
   letter-spacing: 0.04em;
   text-decoration: none;
   cursor: pointer;
-  border: none;
-  transition: transform 0.22s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.22s, filter 0.22s;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s, background 0.25s, border-color 0.25s;
 }
 
 .pill-btn-gradient {
-  background: linear-gradient(135deg, #ff0033 0%, #cc0029 50%, #8b1027 100%);
+  background: linear-gradient(135deg, rgba(255, 0, 51, 0.12) 0%, rgba(181, 34, 59, 0.10) 50%, rgba(116, 22, 42, 0.16) 100%);
+  border: 1px solid rgba(255, 60, 90, 0.35);
   color: #ffffff !important;
-  box-shadow: 0 8px 24px rgba(204, 0, 41, 0.45), 0 2px 6px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 0 24px rgba(255, 0, 51, 0.18), 0 8px 24px rgba(0, 0, 0, 0.3), inset 0 0 14px rgba(255, 0, 51, 0.10);
 }
 
 .pill-btn-gradient:hover {
   transform: translateY(-2px);
-  filter: brightness(1.12);
-  box-shadow: 0 12px 32px rgba(255, 0, 51, 0.6), 0 4px 12px rgba(0, 0, 0, 0.35);
+  background: linear-gradient(135deg, rgba(255, 0, 51, 0.22) 0%, rgba(181, 34, 59, 0.18) 50%, rgba(116, 22, 42, 0.26) 100%);
+  border-color: rgba(255, 80, 110, 0.65);
+  box-shadow: 0 0 36px rgba(255, 0, 51, 0.34), 0 12px 32px rgba(0, 0, 0, 0.4), inset 0 0 18px rgba(255, 0, 51, 0.18);
 }
 
 .pill-btn-gradient:active {

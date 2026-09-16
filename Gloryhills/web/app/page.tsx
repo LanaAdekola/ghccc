@@ -51,18 +51,10 @@ export default async function Home() {
             <p>
               He is also an author, itinerant preacher, a devoted missionary and the Lead Pastor of Glory Hills Community Church.
             </p>
-            <div style={{display: 'flex', gap: '12px', flexWrap: 'wrap', marginBottom: '24px'}}>
+            <div style={{marginBottom: '24px'}}>
               <Link className="button" href="/meet-our-pastor">
-                Learn more about Pastor Tobi
+                Meet Our Pastor
               </Link>
-              <a
-                className="button light"
-                href="https://wa.me/2348102858665?text=Hello%20Pastor%20Tobi%20Office%2C%20I%20would%20like%20to%20invite%20Pastor%20Tobi%20Omojowo%20to%20minister."
-                target="_blank"
-                rel="noreferrer"
-              >
-                Invite Pastor Tobi
-              </a>
             </div>
             <div style={{marginTop: '22px'}}>
               <p className="eyebrow" style={{marginBottom: '8px'}}>CONNECT WITH PASTOR TOBI</p>
