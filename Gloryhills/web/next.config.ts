@@ -1,6 +1,18 @@
+import path from 'node:path';
 import type { NextConfig } from 'next';
 const config: NextConfig = {
  poweredByHeader:false,
+  // Keep webpack's runtime alias aligned with tsconfig, even if build-time
+  // TypeScript config discovery is affected by the deployment environment.
+  webpack(config) {
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      '@': path.resolve(__dirname),
+    };
+    return config;
+  },
+  // Development uses Turbopack and its built-in tsconfig paths support.
+  turbopack: {},
   compress: true,
   images: {
     formats: ['image/avif', 'image/webp'],
