@@ -6,7 +6,6 @@ import {mission, published, settings} from '@/lib/content';
 import about from '@/lib/content/legacy-about.json';
 import PublicForm from '@/components/public-form';
 import CopyAccount from '@/components/copy-account';
-import {schedule} from '@/lib/fields';
 import Consent from '@/components/consent';
 import YouTubeEmbed from '@/components/youtube-embed';
 import {getYouTubeId} from '@/lib/youtube';
@@ -333,7 +332,7 @@ export default async function Page({params}: {params: Promise<{page: string}>}) 
                       <div style={{marginBottom: '16px'}}>
                         <YouTubeEmbed url={url} title={title} />
                       </div>
-                      <p className="eyebrow">FEATURED SERMON</p>
+                      <p className="eyebrow">YOUTUBE ARCHIVE</p>
                       <h2>{title}</h2>
                       <p>{desc}</p>
                       <a className="text-link" href={url} target="_blank" rel="noreferrer">
@@ -484,7 +483,7 @@ export default async function Page({params}: {params: Promise<{page: string}>}) 
               <h2>Where We Gather</h2>
             </div>
             <LocationMap headquarters={s.headquarters} isheri={s.isheri} />
-            <div className="prose" style={{marginTop: '40px'}}>
+            <div className="prose" style={{marginTop: '36px'}}>
               <p>
                 <Link className="button light" href="/plan-your-visit">
                   Let us know you are coming ↗

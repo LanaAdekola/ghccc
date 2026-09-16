@@ -1127,7 +1127,7 @@ footer {
 .church-map-container {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 20px;
   background: white;
   border: 1px solid var(--border);
   border-radius: var(--radius);
@@ -1135,6 +1135,61 @@ footer {
   box-shadow: var(--shadow);
   width: 100%;
   box-sizing: border-box;
+}
+
+.map-header-toggle {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 16px;
+}
+
+.map-toggle-buttons {
+  display: inline-flex;
+  gap: 10px;
+  background: var(--ivory);
+  padding: 6px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+}
+
+.map-tab-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  font-family: var(--body), Arial, sans-serif;
+  font-size: 0.92rem;
+  font-weight: 700;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all var(--duration) ease;
+}
+
+.map-tab-btn:hover {
+  color: var(--ink);
+}
+
+.map-tab-btn.active {
+  background: var(--burgundy);
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(116, 22, 42, 0.25);
+}
+
+.tab-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--border);
+  transition: background var(--duration) ease;
+}
+
+.map-tab-btn.active .tab-dot {
+  background: var(--gold);
 }
 
 .map-frame-wrap {
@@ -1153,31 +1208,35 @@ footer {
   display: block;
 }
 
-.map-details-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 20px;
-}
-
-.map-location-card {
-  padding: 20px;
+.map-active-detail {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  padding: 20px 24px;
   background: var(--ivory);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+  flex-wrap: wrap;
 }
 
-.map-location-card h3 {
+.map-detail-main {
+  flex: 1;
+  min-width: 260px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.map-detail-main h3 {
   margin: 0;
-  font-size: 1.25rem;
+  font-size: 1.3rem;
   color: var(--ink);
 }
 
-.map-location-card p {
+.map-address-text {
   margin: 0;
-  font-size: 0.92rem;
+  font-size: 0.95rem;
   color: var(--muted);
   line-height: 1.5;
 }
@@ -1195,23 +1254,90 @@ footer {
   margin-bottom: 4px;
 }
 
-.location-badge.secondary {
-  background: var(--muted);
-}
-
 .location-times {
   display: flex;
   flex-direction: column;
   gap: 4px;
-  margin-top: 4px;
-  font-size: 0.82rem;
+  margin-top: 6px;
+  font-size: 0.85rem;
   font-weight: 600;
   color: var(--burgundy);
 }
 
+.map-actions-col {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 220px;
+}
+
 .map-direction-btn {
-  margin-top: 12px;
-  align-self: flex-start;
+  width: 100%;
+}
+
+.map-switch-btn {
+  width: 100%;
+  cursor: pointer;
+}
+
+.map-locations-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.location-summary-card {
+  padding: 16px 20px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all var(--duration) ease;
+}
+
+.location-summary-card:hover {
+  border-color: var(--burgundy);
+  transform: translateY(-2px);
+}
+
+.location-summary-card.highlight {
+  border-color: var(--burgundy);
+  background: #fdfaf8;
+  box-shadow: 0 4px 14px rgba(116, 22, 42, 0.08);
+}
+
+.summary-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.summary-header strong {
+  font-size: 0.95rem;
+  color: var(--ink);
+}
+
+.active-pill {
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  background: var(--burgundy);
+  color: white;
+  border-radius: 999px;
+}
+
+.location-summary-card p {
+  margin: 0 0 6px;
+  font-size: 0.86rem;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.summary-time {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--burgundy);
 }
 
 @media (max-width: 600px) {
@@ -1220,6 +1346,18 @@ footer {
   }
   .map-frame-wrap {
     height: 280px;
+  }
+  .map-toggle-buttons {
+    width: 100%;
+  }
+  .map-tab-btn {
+    flex: 1;
+    justify-content: center;
+    padding: 8px 12px;
+    font-size: 0.8rem;
+  }
+  .map-actions-col {
+    width: 100%;
   }
 }
 

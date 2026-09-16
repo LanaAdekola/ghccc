@@ -120,7 +120,9 @@ export default async function Layout({children}: {children: React.ReactNode}) {
               description: 'A Christian community committed to evangelizing the world and discipling the nations.',
               address: {
                 '@type': 'PostalAddress',
-                streetAddress: s.headquarters || '3rd Floor, Tejumola House, Plot 24 Ogunnusi Road (beside CLAM)',
+                streetAddress:
+                  s.headquarters ||
+                  '3rd Floor of Tejumola House, Plot 24 Ogunnusi Road (beside CLAM) in Ojodu Berger, Lagos',
                 addressLocality: 'Ojodu Berger',
                 addressRegion: 'Lagos',
                 addressCountry: 'NG',
@@ -130,7 +132,7 @@ export default async function Layout({children}: {children: React.ReactNode}) {
                 name: 'Glory Hills Isheri Magodo',
                 address: {
                   '@type': 'PostalAddress',
-                  streetAddress: s.isheri || '4 Ogun River Road',
+                  streetAddress: s.isheri || '6 Ogun River Road, Isheri-Magodo, Lagos',
                   addressLocality: 'Isheri Magodo',
                   addressRegion: 'Lagos',
                   addressCountry: 'NG',
