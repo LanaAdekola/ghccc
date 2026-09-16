@@ -58,3 +58,4 @@ Configure these variables in **Vercel Project Settings → Environment Variables
 - [ ] **Google Ads Conversion Linker**: Enable Conversion Linker in GTM.
 - [ ] **Database & RLS Verification**: Execute `supabase/migrations/202609150001_initial.sql` in Supabase SQL editor.
 - [ ] **Backup Super-Administrator**: Confirm that at least **two** trusted church leaders have `super_admin` accounts in `/admin`.
+

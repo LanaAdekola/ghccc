@@ -29,6 +29,12 @@ export const mediaEditorAllowedKinds = [
   'ministries',
 ];
 
+export const requiredWhenPublished = {
+  giving_methods: ['bank_name', 'account_name', 'account_number', 'currency'],
+  service_times: ['location', 'day', 'start', 'end', 'timezone'],
+  gallery_images: ['album_slug'],
+};
+
 const safeUrl = z
   .string()
   .max(2000)
