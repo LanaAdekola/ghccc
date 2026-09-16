@@ -9,7 +9,7 @@ Welcome to the Glory Hills Community Church web platform handover document. This
 1. **Google Tag Manager (GTM) Container Layer**: Single tag-management container dynamically injected when `NEXT_PUBLIC_GTM_ID` is defined.
 2. **Interactive YouTube Sermon Embedding**: Embedded players supporting official church messages and archive playlists with privacy-respecting embeds (`youtube-nocookie.com`).
 3. **Hero Media Optimization**: Responsive media rendering — high-resolution imagery (`teenagers.png`) on laptop/desktop viewports and a converted 30fps web-optimized MP4 video on mobile/tablet viewports.
-4. **Lead Pastor Spotlight**: Dedicated home screen feature section introducing Pastor Tobi Omojowo with direct links to his YouTube, Instagram, TikTok, Facebook channels, and online search.
+4. **Lead Pastor Spotlight**: Dedicated home screen feature section introducing Pastor Tobi Omojowo — Psalmist, Pastor and Missionary — with direct links to his YouTube, Instagram, TikTok, and Facebook channels.
 5. **Full SEO Architecture**: Automatic `/sitemap.xml`, `/robots.txt`, canonical URLs, Open Graph / Twitter Card social previews, search icons/favicons, and Schema.org structured data for Church, Events, and Sermon VideoObjects.
 6. **Admin-Editable SEO Fields**: In-dashboard control over `seo_title` and `seo_description` across pages, sermons, and events.
 7. **17 Data-Layer Conversion Events**: Safe event triggers covering every essential congregational action (listening, giving, event registration, visit planning, phone/email contact, newsletter).

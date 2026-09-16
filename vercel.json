@@ -5,3 +5,4 @@
   "buildCommand": "npm --prefix Gloryhills run build",
   "outputDirectory": "Gloryhills/web/.next"
 }
+

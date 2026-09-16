@@ -4,6 +4,7 @@ import {mission, published} from '@/lib/content';
 import {meta} from '@/lib/seo';
 import YouTubeEmbed from '@/components/youtube-embed';
 import {YouTubeIcon, InstagramIcon, TikTokIcon, FacebookIcon} from '@/components/icons';
+import LocationMap from '@/components/location-map';
 
 export const metadata = meta(
   'Welcome home',
@@ -40,9 +41,9 @@ export default async function Home() {
           <div>
             <p className="eyebrow">MEET OUR LEAD PASTOR</p>
             <h2>Pastor Tobi Omojowo</h2>
-            <p className="lead">Passionate Worshipper · Preacher · Recording Gospel Artist · Missionary</p>
+            <p className="lead">Psalmist · Pastor · Missionary</p>
             <p>
-              Pastor Tobi Omojowo is an itinerant preacher, passionate worshipper, recording gospel artist, and the Senior Pastor of Glory Hills Community Church, Lagos State, Nigeria.
+              Pastor Tobi Omojowo is a psalmist, pastor, missionary, and the Senior Pastor of Glory Hills Community Church, Lagos State, Nigeria.
             </p>
             <p>
               With a deep mandate to raise men through intentional discipleship, he ministers across nations with signs following. His life of worship and gospel music has blessed millions globally through soul-stirring hymns, prophetic songs, and heartfelt praise.
@@ -196,12 +197,15 @@ export default async function Home() {
 
     visit: (
       <section className="section visit-callout">
-        <p className="eyebrow">YOU ARE WELCOME HERE</p>
+        <p className="eyebrow">LOCATE US · YOU ARE WELCOME HERE</p>
         <h2>
           Let’s walk this
           <br />
           journey together.
         </h2>
+        <div style={{maxWidth: '960px', margin: '36px auto 32px', textAlign: 'left'}}>
+          <LocationMap />
+        </div>
         <Link className="button" href="/plan-your-visit">
           Plan your visit ↗
         </Link>

@@ -11,6 +11,7 @@ import Consent from '@/components/consent';
 import YouTubeEmbed from '@/components/youtube-embed';
 import {getYouTubeId} from '@/lib/youtube';
 import {YouTubeIcon, InstagramIcon, TikTokIcon, FacebookIcon, SpotifyIcon} from '@/components/icons';
+import LocationMap from '@/components/location-map';
 
 const heroImages: Record<string, string> = {
   'about-us': '/images/heroes/h1.jpg',
@@ -46,27 +47,27 @@ const defaultArchiveSermons: [string, string, string][] = [
   [
     'The Gospel of God',
     'https://youtu.be/l4_ji36Lisg',
-    'A discussion of the trinitarian nature of God.',
+    'A discussion of the trinitarian nature of God by Pastor Tobi Omojowo.',
   ],
   [
-    'The Making of the Sons of God',
+    'One Lord, One Faith, One Baptism',
     'https://www.youtube.com/watch?v=xTEio7mLZ8c',
-    'Understanding our divine heritage in Christ Jesus and growing into spiritual maturity through the Word.',
+    'Understanding unity in the Body of Christ and growing into spiritual maturity through the Word by Pastor Tobi Omojowo.',
   ],
   [
-    'Walking in Spiritual Authority',
+    'Dominion Summit (Subdue The Earth)',
     'https://www.youtube.com/watch?v=HsIlFfsRt4c',
-    'Exercising the power and authority conferred upon the believer through the name and sacrifice of Jesus Christ.',
+    'Exercising kingdom authority and walking in divine dominion by Prophet Ayo Jeje.',
   ],
   [
-    'An archived service',
+    'Faith Series (Part 9)',
     'https://www.youtube.com/watch?v=0lVoeZf9FFQ&t=3776s',
-    'Worship, prayers, and deep teaching from Sunday congregational worship at Glory Hills.',
+    'Deep biblical exposition on faith, spiritual growth, and victory by Pastor Seyi Adefemi.',
   ],
   [
-    'Listen to an archived message',
+    'The Book of Romans (Chapter 15)',
     'https://www.youtube.com/watch?v=srj86o_9PBU&t=4s',
-    'Discipleship exposition and prophetic prayers to strengthen your spiritual walk.',
+    'Discipleship exposition and spiritual alignment from the Book of Romans by Pastor Tobi Omojowo.',
   ],
 ];
 
@@ -332,7 +333,7 @@ export default async function Page({params}: {params: Promise<{page: string}>}) 
                       <div style={{marginBottom: '16px'}}>
                         <YouTubeEmbed url={url} title={title} />
                       </div>
-                      <p className="eyebrow">YOUTUBE ARCHIVE</p>
+                      <p className="eyebrow">FEATURED SERMON</p>
                       <h2>{title}</h2>
                       <p>{desc}</p>
                       <a className="text-link" href={url} target="_blank" rel="noreferrer">
@@ -479,17 +480,15 @@ export default async function Page({params}: {params: Promise<{page: string}>}) 
           <>
             <Services />
             <div className="prose">
-              <h2>Ojodu Berger · Headquarters</h2>
-              <p>{s.headquarters}</p>
-              <h2>Isheri Magodo</h2>
-              <p>{s.isheri}</p>
-              {s.map_url && /^https:\/\//.test(s.map_url) && (
-                <a className="button" href={s.map_url} data-action="directions" target="_blank" rel="noreferrer">
-                  Get directions ↗
-                </a>
-              )}
+              <p className="eyebrow" style={{marginBottom: '6px'}}>LOCATE US</p>
+              <h2>Where We Gather</h2>
+            </div>
+            <LocationMap headquarters={s.headquarters} isheri={s.isheri} />
+            <div className="prose" style={{marginTop: '40px'}}>
               <p>
-                <Link href="/plan-your-visit">Let us know you are coming ↗</Link>
+                <Link className="button light" href="/plan-your-visit">
+                  Let us know you are coming ↗
+                </Link>
               </p>
             </div>
           </>
