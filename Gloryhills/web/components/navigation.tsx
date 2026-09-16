@@ -7,6 +7,7 @@ import {usePathname} from 'next/navigation';
 
 const links = [
   ['About', '/about-us'],
+  ['Our Pastor', '/meet-our-pastor'],
   ['Listen', '/sermons'],
   ['Gatherings', '/events'],
   ['Visit us', '/visit-us'],
@@ -91,7 +92,7 @@ export default function Navigation() {
             </Link>
           ))}
           <Link className="button small nav-give-btn" href="/give" onClick={() => setOpen(false)}>
-            Give ↗
+            Give
           </Link>
         </div>
 
@@ -99,19 +100,19 @@ export default function Navigation() {
           <div className="nav-gathering-card">
             <span className="gathering-dot" />
             <div>
-              <strong>Sunday Gathering · 8:00 AM</strong>
+              <strong>Sunday 8 AM · Wednesday 6 PM · Friday 6 PM</strong>
               <p>Ojodu Berger Headquarters</p>
             </div>
           </div>
           <div className="nav-mobile-links">
             <a href="https://www.youtube.com/@gloryhillscommunitychurch" target="_blank" rel="noreferrer">
-              YouTube ↗
+              YouTube
             </a>
             <a href="https://www.instagram.com/gloryhillchurch/" target="_blank" rel="noreferrer">
-              Instagram ↗
+              Instagram
             </a>
             <Link href="/plan-your-visit" onClick={() => setOpen(false)}>
-              Plan a visit ↗
+              Plan a visit
             </Link>
           </div>
         </div>

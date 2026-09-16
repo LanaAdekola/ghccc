@@ -87,7 +87,7 @@ export default async function Layout({children}: {children: React.ReactNode}) {
               <h3>Come as you are</h3>
               <p>{s.headquarters}</p>
               <p>Also in Isheri Magodo</p>
-              <Link href="/visit-us">Explore our locations ↗</Link>
+              <Link href="/visit-us">Explore our locations</Link>
             </div>
             <div>
               <h3>Stay connected</h3>
@@ -95,10 +95,10 @@ export default async function Layout({children}: {children: React.ReactNode}) {
               <Link href="/prayer-request">Prayer request</Link>
               <Link href="/leadership">Our pastors</Link>
               <a href="https://www.youtube.com/@gloryhillscommunitychurch" target="_blank" rel="noreferrer">
-                YouTube channel ↗
+                YouTube channel
               </a>
               <a href="https://www.instagram.com/gloryhillchurch/" target="_blank" rel="noreferrer">
-                Instagram ↗
+                Instagram
               </a>
             </div>
           </div>
@@ -159,6 +159,12 @@ export default async function Layout({children}: {children: React.ReactNode}) {
                   dayOfWeek: ['Wednesday'],
                   opens: '18:00',
                   closes: '20:30',
+                },
+                {
+                  '@type': 'OpeningHoursSpecification',
+                  dayOfWeek: ['Friday'],
+                  opens: '18:00',
+                  closes: '20:00',
                 },
               ],
               ...(s.phone ? {telephone: s.phone} : {}),

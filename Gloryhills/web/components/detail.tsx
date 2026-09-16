@@ -40,14 +40,14 @@ export default async function Detail({kind, slug}: {kind: string; slug: string})
         {url && (
           <p style={{marginTop: '24px'}}>
             <a className="button" href={url} target="_blank" rel="noreferrer">
-              {kind === 'sermons' ? 'Open on YouTube ↗' : 'More information ↗'}
+              {kind === 'sermons' ? 'Open on YouTube' : 'More information'}
             </a>
           </p>
         )}
         {kind === 'events' && (
           <p style={{marginTop: '16px'}}>
             <Link className="button small light event-register-button" data-action="event-register" href="/contact">
-              Register interest ↗
+              Register interest
             </Link>
           </p>
         )}

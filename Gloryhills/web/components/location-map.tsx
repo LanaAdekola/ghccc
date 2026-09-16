@@ -98,7 +98,7 @@ export default function LocationMap({
             className="button small map-direction-btn"
             data-action="directions"
           >
-            Get directions on Google Maps ↗
+            Get directions on Google Maps
           </a>
           <button
             type="button"

@@ -1401,3 +1401,203 @@ footer {
     display: none !important;
   }
 }
+
+/* ━━━ Meet Our Pastor ━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+.pastor-hero {
+  position: relative;
+  min-height: 70vh;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  text-align: center;
+  color: var(--white);
+  overflow: hidden;
+}
+.pastor-hero img {
+  z-index: 0;
+}
+.pastor-hero-content {
+  position: relative;
+  z-index: 2;
+  padding: 0 var(--space) 64px;
+  max-width: 780px;
+}
+.pastor-hero-content h1 {
+  font-size: clamp(2.4rem, 6vw, 4rem);
+  margin: 8px 0 12px;
+}
+.pastor-hero-content .lead {
+  font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+  margin-bottom: 4px;
+}
+.pastor-hero-content p:last-child {
+  font-size: 1rem;
+  opacity: 0.85;
+  letter-spacing: 0.06em;
+}
+
+.pastor-bio {
+  padding-top: clamp(48px, 8vw, 100px);
+  padding-bottom: clamp(48px, 8vw, 100px);
+}
+.pastor-bio .split {
+  gap: clamp(32px, 5vw, 64px);
+}
+.pastor-bio-image {
+  flex: 0 0 auto;
+  max-width: 460px;
+  width: 100%;
+}
+.pastor-bio-image img {
+  width: 100%;
+  height: auto;
+}
+
+/* Stats Strip */
+.pastor-stats {
+  background: var(--ink);
+  color: var(--white);
+  padding: clamp(48px, 8vw, 80px) var(--space);
+}
+.pastor-stats-grid {
+  max-width: var(--container);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  text-align: center;
+}
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.stat-number {
+  font-family: var(--display);
+  font-size: clamp(2.4rem, 6vw, 4rem);
+  font-weight: 700;
+  color: var(--gold);
+  line-height: 1;
+}
+.stat-label {
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  opacity: 0.8;
+}
+
+/* Pastor Sections */
+.pastor-section {
+  padding-top: clamp(48px, 8vw, 80px);
+  padding-bottom: clamp(48px, 8vw, 80px);
+}
+.pastor-section .split {
+  gap: clamp(32px, 5vw, 64px);
+}
+
+.pastor-media-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+.pastor-media-grid h3 {
+  font-size: 1rem;
+  margin-bottom: 12px;
+  color: var(--muted);
+}
+
+.sermon-accent {
+  background: #faf8f5;
+}
+
+/* Worship Banner */
+.pastor-worship-banner {
+  position: relative;
+  min-height: 50vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: var(--white);
+  overflow: hidden;
+}
+.pastor-worship-banner img {
+  z-index: 0;
+}
+.pastor-worship-content {
+  position: relative;
+  z-index: 2;
+  padding: 0 var(--space);
+  max-width: 780px;
+}
+.pastor-worship-content h2 {
+  font-size: clamp(1.4rem, 3vw, 2.2rem);
+  line-height: 1.5;
+}
+
+/* Connect CTA */
+.pastor-connect-cta {
+  text-align: center;
+  padding-top: clamp(60px, 10vw, 120px);
+  padding-bottom: clamp(60px, 10vw, 120px);
+}
+
+/* Service Image Cards */
+.service-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+}
+.service-image-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  transition: transform var(--duration);
+}
+.service-image-card:hover {
+  transform: translateY(-2px);
+}
+.service-image-card .service-card-img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+}
+.service-image-card .service-card-body {
+  padding: 20px 24px 24px;
+}
+.service-image-card .service-card-body h3 {
+  font-size: 1.15rem;
+  margin: 0 0 4px;
+}
+.service-image-card .service-card-body .service-time {
+  color: var(--crimson);
+  font-weight: 700;
+  font-size: 0.95rem;
+  margin: 0 0 8px;
+}
+.service-image-card .service-card-body p:last-child {
+  color: var(--muted);
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .pastor-hero {
+    min-height: 55vh;
+  }
+  .pastor-stats-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  .pastor-media-grid {
+    grid-template-columns: 1fr;
+  }
+  .pastor-bio-image {
+    max-width: 100%;
+  }
+  .service-image-card .service-card-img {
+    height: 180px;
+  }
+}

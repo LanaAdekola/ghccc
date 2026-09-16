@@ -20,7 +20,7 @@ export default function YouTubeEmbed({url, title, aspectRatio = '16 / 9', classN
   if (!videoId) {
     return (
       <a className="button" href={url} target="_blank" rel="noreferrer" onClick={() => track('listen_click')}>
-        Watch on YouTube ↗
+        Watch on YouTube
       </a>
     );
   }

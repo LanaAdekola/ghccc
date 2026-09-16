@@ -203,8 +203,8 @@ export default async function Page({params}: {params: Promise<{page: string}>}) 
             <p>{about.vision_grid.content[0].body[2]}</p>
             <p>Matthew 28:17–20</p>
             <div style={{marginTop: '30px'}}>
-              <Link className="button" href="/leadership">
-                Meet our lead pastor ↗
+              <Link className="button" href="/meet-our-pastor">
+                Meet our lead pastor
               </Link>
             </div>
           </div>
@@ -215,15 +215,15 @@ export default async function Page({params}: {params: Promise<{page: string}>}) 
             <div className="pastor-photo-frame">
               <Image
                 src="/images/leadership/lead-pastor.png"
-                alt="Pastor Tobi Omojowo, Senior Pastor of Glory Hills Community Church"
+                alt="Pastor Tobi Omojowo, Lead Pastor of Glory Hills Community Church"
                 width={768}
                 height={511}
                 style={{objectFit: 'cover'}}
               />
-              <span>SENIOR PASTOR · GLORY HILLS</span>
+              <span>LEAD PASTOR · GLORY HILLS</span>
             </div>
             <div>
-              <p className="eyebrow">SENIOR PASTOR</p>
+              <p className="eyebrow">LEAD PASTOR</p>
               <h2>Pastor Tobi Omojowo</h2>
               {about.lead_pastor.content[0].body.map((b: string, i: number) => (
                 <p key={i}>{b}</p>
@@ -288,7 +288,7 @@ export default async function Page({params}: {params: Promise<{page: string}>}) 
                 style={{display: 'inline-flex', alignItems: 'center', gap: '8px'}}
               >
                 <YouTubeIcon size={18} />
-                <span>YouTube ↗</span>
+                <span>YouTube</span>
               </a>
               <a
                 className="button light"
@@ -298,7 +298,7 @@ export default async function Page({params}: {params: Promise<{page: string}>}) 
                 style={{display: 'inline-flex', alignItems: 'center', gap: '8px'}}
               >
                 <SpotifyIcon size={18} />
-                <span>Spotify ↗</span>
+                <span>Spotify</span>
               </a>
             </div>
 
@@ -316,7 +316,7 @@ export default async function Page({params}: {params: Promise<{page: string}>}) 
                     </h2>
                     <p>{x.description}</p>
                     <Link className="text-link" href={`/sermons/${x.slug}`}>
-                      Listen ↗
+                      Listen
                     </Link>
                   </article>
                 ))}
@@ -336,7 +336,7 @@ export default async function Page({params}: {params: Promise<{page: string}>}) 
                       <h2>{title}</h2>
                       <p>{desc}</p>
                       <a className="text-link" href={url} target="_blank" rel="noreferrer">
-                        Watch directly on YouTube ↗
+                        Watch directly on YouTube
                       </a>
                     </article>
                   ))}
@@ -383,7 +383,7 @@ export default async function Page({params}: {params: Promise<{page: string}>}) 
                         data-action="event-register"
                         href="/contact"
                       >
-                        Register interest ↗
+                        Register interest
                       </Link>
                     </article>
                   ))}
@@ -408,7 +408,7 @@ export default async function Page({params}: {params: Promise<{page: string}>}) 
                         href="/contact"
                         style={{marginTop: '12px'}}
                       >
-                        Register interest ↗
+                        Register interest
                       </Link>
                     </article>
                   ))}
@@ -469,7 +469,7 @@ export default async function Page({params}: {params: Promise<{page: string}>}) 
                 </p>
               </details>
               <p>
-                <Link href="/contact">Contact us for giving assistance ↗</Link>
+                <Link href="/contact">Contact us for giving assistance</Link>
               </p>
             </div>
           </>
@@ -486,7 +486,7 @@ export default async function Page({params}: {params: Promise<{page: string}>}) 
             <div className="prose" style={{marginTop: '36px'}}>
               <p>
                 <Link className="button light" href="/plan-your-visit">
-                  Let us know you are coming ↗
+                  Let us know you are coming
                 </Link>
               </p>
             </div>
@@ -570,12 +570,31 @@ async function Services() {
       ))}
     </div>
   ) : (
-    <div className="notice">
-      <h2>Service times</h2>
-      <p>
-        Ojodu Berger headquarters: Sunday 8:00 AM–1:00 PM and Wednesday 6:00 PM–8:30 PM (WAT). The Isheri Magodo schedule
-        will be published separately when confirmed.
-      </p>
+    <div className="service-cards-grid">
+      <article className="service-image-card">
+        <img className="service-card-img" src="/images/services/sunday.jpg" alt="Sunday Worship Service at Glory Hills" />
+        <div className="service-card-body">
+          <h3>Sunday Worship Service</h3>
+          <p className="service-time">8:00 AM – 1:00 PM (WAT)</p>
+          <p>Ojodu Berger Headquarters &amp; Isheri Magodo</p>
+        </div>
+      </article>
+      <article className="service-image-card">
+        <img className="service-card-img" src="/images/services/wednesday.jpg" alt="Wednesday Prayer Meeting at Glory Hills" />
+        <div className="service-card-body">
+          <h3>Wednesday Prayer Meeting</h3>
+          <p className="service-time">6:00 PM – 8:30 PM (WAT)</p>
+          <p>Ojodu Berger Headquarters</p>
+        </div>
+      </article>
+      <article className="service-image-card">
+        <img className="service-card-img" src="/images/services/friday.jpg" alt="Friday Disciple's Hub at Glory Hills" />
+        <div className="service-card-body">
+          <h3>Friday Disciple&apos;s Hub</h3>
+          <p className="service-time">6:00 PM – 8:00 PM (WAT)</p>
+          <p>Ojodu Berger Headquarters</p>
+        </div>
+      </article>
     </div>
   );
 }
@@ -618,7 +637,7 @@ async function Giving() {
         <p>USD · GBP · EUR</p>
         <p>Available on request. Please contact the church office for international wire routing details.</p>
         <Link className="button small" href="/contact">
-          Contact Church Office ↗
+          Contact Church Office
         </Link>
       </article>
       <article className="card giving-method-card" data-giving-method="Online Transfer">
@@ -626,7 +645,7 @@ async function Giving() {
         <h2>Electronic Transfer</h2>
         <p>Fast, direct electronic transfer through your bank mobile app or internet banking platform.</p>
         <Link className="button small light" href="/give" data-action="online-giving-start">
-          Online Giving Details ↗
+          Online Giving Details
         </Link>
       </article>
     </div>

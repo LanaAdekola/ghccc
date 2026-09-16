@@ -31,23 +31,26 @@ export default async function Home() {
           <div className="pastor-photo-frame">
             <Image
               src="/images/leadership/lead-pastor.png"
-              alt="Pastor Tobi Omojowo, Senior Pastor of Glory Hills Community Church"
+              alt="Pastor Tobi Omojowo, Lead Pastor of Glory Hills Community Church"
               width={768}
               height={511}
               style={{objectFit: 'cover'}}
             />
-            <span>SENIOR PASTOR · GLORY HILLS</span>
+            <span>LEAD PASTOR · GLORY HILLS</span>
           </div>
           <div>
             <p className="eyebrow">MEET OUR LEAD PASTOR</p>
             <h2>Pastor Tobi Omojowo</h2>
             <p className="lead">Psalmist · Pastor · Missionary</p>
             <p>
-              Pastor Tobi Omojowo is a psalmist, pastor, missionary, and the Senior Pastor of Glory Hills Community Church, Lagos State, Nigeria.
+              Pastor Tobi Omojowo is a psalmist, pastor, missionary, and the Lead Pastor of Glory Hills Community Church, Lagos State, Nigeria.
             </p>
             <p>
               With a deep mandate to raise men through intentional discipleship, he ministers across nations with signs following. His life of worship and gospel music has blessed millions globally through soul-stirring hymns, prophetic songs, and heartfelt praise.
             </p>
+            <Link className="button" href="/meet-our-pastor" style={{marginBottom: '24px'}}>
+              Learn more about Pastor Tobi
+            </Link>
             <div style={{marginTop: '22px'}}>
               <p className="eyebrow" style={{marginBottom: '8px'}}>CONNECT WITH PASTOR TOBI</p>
               <div className="social-icons-row">
@@ -110,7 +113,7 @@ export default async function Home() {
           <p className="lead">We are committed to evangelizing the world and discipling the nations.</p>
           <p>{home?.body || mission}</p>
           <Link className="text-link" href="/about-us">
-            Get to know us ↗
+            Get to know us
           </Link>
         </div>
         <div className="photo-frame">
@@ -133,7 +136,7 @@ export default async function Home() {
             <h2>Faith comes by hearing.</h2>
           </div>
           <Link className="text-link" href="/sermons">
-            Explore messages ↗
+            Explore messages
           </Link>
         </div>
         <article className="feature-sermon">
@@ -151,7 +154,7 @@ export default async function Home() {
                 'A discussion of the trinitarian nature of God.'}
             </p>
             <Link className="button" href={sermons[0] ? `/sermons/${sermons[0].slug}` : '/sermons'}>
-              Listen to more messages ↗
+              Listen to more messages
             </Link>
           </div>
         </article>
@@ -180,7 +183,7 @@ export default async function Home() {
           <h2>Grow and serve.</h2>
           <p>Find your community in the life of the church.</p>
           <Link className="button" href="/ministries">
-            Explore ministries ↗
+            Explore ministries
           </Link>
         </section>
       ) : null,
@@ -190,7 +193,7 @@ export default async function Home() {
         <section className="section">
           <h2>Life in our church family.</h2>
           <Link className="button" href="/gallery">
-            View Sunday pictures ↗
+            View Sunday pictures
           </Link>
         </section>
       ) : null,
@@ -207,7 +210,7 @@ export default async function Home() {
           <LocationMap />
         </div>
         <Link className="button" href="/plan-your-visit">
-          Plan your visit ↗
+          Plan your visit
         </Link>
       </section>
     ),
@@ -219,7 +222,7 @@ export default async function Home() {
           <h2>Give with purpose.</h2>
         </div>
         <Link className="button light" href="/give">
-          Ways to give ↗
+          Ways to give
         </Link>
       </section>
     ),
@@ -281,10 +284,10 @@ export default async function Home() {
           </p>
           <div className="actions">
             <Link className="button" href="/sermons">
-              Listen <span>↗</span>
+              Listen
             </Link>
             <Link className="button light" href="/give">
-              Give <span>↗</span>
+              Give
             </Link>
           </div>
         </div>
@@ -297,9 +300,9 @@ export default async function Home() {
       <section className="service-strip">
         <div className="service-strip-content">
           <span className="eyebrow">LET’S GATHER</span>
-          <p>{services[0]?.description || 'Sunday 8 AM · Wednesday 6 PM · Ojodu Berger HQ'}</p>
+          <p>{services[0]?.description || 'Sunday 8 AM · Wednesday 6 PM · Friday 6 PM · Ojodu Berger HQ'}</p>
         </div>
-        <Link href="/visit-us">Service information ↗</Link>
+        <Link href="/visit-us">Service information</Link>
       </section>
 
       {order.map((key) => (
