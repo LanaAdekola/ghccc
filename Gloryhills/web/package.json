@@ -30,10 +30,9 @@
     "@types/react-dom": "latest",
     "eslint": "latest",
     "eslint-config-next": "16.3.5",
-    "lighthouse": "latest",
     "typescript": "latest"
   },
   "engines": {
-    "node": ">=22.12.0"
+    "node": ">=20.0.0"
   }
 }
