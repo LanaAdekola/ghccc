@@ -59,7 +59,7 @@ export default function Navigation() {
         ref={button}
         aria-expanded={open}
         aria-controls="main-menu"
-        aria-label={open ? 'Close menu' : 'Open menu'}
+        aria-label={open ? 'Close Menu' : 'Open Menu'}
         onClick={() => setOpen(!open)}
       >
         <span className="hamburger-box">

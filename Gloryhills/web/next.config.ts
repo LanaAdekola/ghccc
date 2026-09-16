@@ -9,6 +9,11 @@ const config: NextConfig = {
       ...config.resolve.alias,
       '@': path.resolve(__dirname),
     };
+    config.resolve.modules = [
+      path.resolve(__dirname, 'node_modules'),
+      path.resolve(__dirname, '../node_modules'),
+      ...(config.resolve.modules || ['node_modules']),
+    ];
     return config;
   },
   // Development uses Turbopack and its built-in tsconfig paths support.
@@ -18,7 +23,7 @@ const config: NextConfig = {
     formats: ['image/avif', 'image/webp'],
   },
   experimental:{serverActions:{bodySizeLimit:"6mb"}},
-  outputFileTracingRoot:process.cwd(),
+  outputFileTracingRoot:path.resolve(__dirname, '..'),
   async redirects(){return [{source:'/sermon',destination:'/sermons',permanent:true},{source:'/event',destination:'/events',permanent:true},{source:'/otherdata',destination:'/',permanent:true}];},
   async headers(){
     return [

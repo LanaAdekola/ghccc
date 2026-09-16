@@ -1,0 +1,14 @@
+{
+  "name": "ghccc",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "npm --prefix Gloryhills run dev",
+    "build": "npm --prefix Gloryhills run build",
+    "start": "npm --prefix Gloryhills run start",
+    "test": "npm --prefix Gloryhills run test"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

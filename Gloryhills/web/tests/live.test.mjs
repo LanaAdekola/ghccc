@@ -2,11 +2,20 @@
 // Creates temporary Auth users with the "devin-live-check" prefix and removes them afterwards.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {readFileSync} from 'node:fs';
-for(const line of readFileSync(new URL('../.env.local',import.meta.url),'utf8').split('\n')){
- const at=line.indexOf('=');
- if(at>0&&!line.startsWith('#'))process.env[line.slice(0,at)]??=line.slice(at+1);
+import {existsSync, readFileSync} from 'node:fs';
+
+const envPath = new URL('../.env.local', import.meta.url);
+if (!existsSync(envPath)) {
+  test('Live Supabase tests (skipped: .env.local not found)', {skip: 'web/.env.local not present'}, () => {});
+} else {
+  runLiveTests();
 }
+
+function runLiveTests() {
+  for (const line of readFileSync(envPath, 'utf8').split('\n')) {
+    const at = line.indexOf('=');
+    if (at > 0 && !line.startsWith('#')) process.env[line.slice(0, at)] ??= line.slice(at + 1);
+  }
 const url=process.env.NEXT_PUBLIC_SUPABASE_URL,anon=process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,service=process.env.SUPABASE_SERVICE_ROLE_KEY;
 const admin=(path,init={})=>fetch(`${url}${path}`,{...init,headers:{apikey:service,authorization:`Bearer ${service}`,'content-type':'application/json',...init.headers}});
 const as=(token,path,init={})=>fetch(`${url}${path}`,{...init,headers:{apikey:anon,authorization:`Bearer ${token}`,'content-type':'application/json',...init.headers}});
@@ -72,3 +81,4 @@ test('admins manage content but only super-admins manage roles',async()=>{
  assert.equal((await as(owner.token,'/rest/v1/user_roles?select=user_id,role')).status,200);
  assert.equal((await as(editor.token,'/rest/v1/user_roles?select=user_id,role')).status,200);
 });
+}
