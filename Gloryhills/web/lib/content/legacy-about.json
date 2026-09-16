@@ -1,29 +1,15 @@
 {
   "slug": "about-us",
   "heroHeading": "About Glory Hills Community Church",
-  "heroDescription": "We will help to develop every smallest thing into a big one for your company.",
+  "heroDescription": "A place where we are committed to evangelize the world, to disciple the nations.",
   "ctas": [
     {
       "quote": "And he gave some, apostles; and some, prophets; and some, evangelists; and some, pastors and teachers, For the perfecting of the saints, for the work of the ministry, for the edifying of the body of Christ",
       "scripture": "Ephesians 4:11,12"
     },
     {
-      "quote": "To fully equip and perfect the saints (God’s people) for works of service, to build up the body of Christ [the church], until we all reach oneness in the faith and in the knowledge of the Son of God.",
-      "scripture": "Ephesians 4:12"
-    }
-  ],
-  "hangers": [
-    {
-      "title": "Pastor",
-      "description": "About our Senior pastor"
-    },
-    {
-      "title": "Leadership",
-      "description": "Our Team of Pastors"
-    },
-    {
-      "title": "Testimonies",
-      "description": "How God has changed our lifes"
+      "quote": "Go ye therefore, and teach all nations, baptizing them in the name of the Father, and of the Son, and of the Holy Ghost: teaching them to observe all things whatsoever I have commanded you.",
+      "scripture": "Matthew 28:19,20"
     }
   ],
   "mission_grid": {
@@ -43,83 +29,63 @@
       {
         "title": "Our Vision",
         "body": [
-          "Evangelizing the word, descipling the nations",
+          "Evangelizing the world, discipling the nations.",
           "Matthew 28:17-20",
-          "Therefore, go and make disciples of all the nations, baptizing them in the name of the Father and the Son and the Holy Spirit. Teach these new disciples to obey all the commands I have given you. And be sure of this: I am with you always, even to the end of the age. "
-
+          "Therefore, go and make disciples of all the nations, baptizing them in the name of the Father and the Son and the Holy Spirit. Teach these new disciples to obey all the commands I have given you. And be sure of this: I am with you always, even to the end of the age."
         ]
       }
     ]
   },
   "lead_pastor": {
     "title": "Senior Pastor",
-    "image_link": "./../images/pastor_tobi.jpg",
+    "name": "Pastor Tobi Omojowo",
+    "image_link": "/images/leadership/pastor_tobi.webp",
     "content": [
       {
         "title": "Pastor Tobi Omojowo",
         "body": [
-          "Pastor Tobi Omojowo is an Itinerant preacher, a Passionate Worshipper, a Devoted Missionary, an Author and the Senior Pastor of Glory Hills Community Church, Lagos State, Nigeria. His love and passion for God and His Kingdom has made him serve in different capacities over his many years of walking with the Lord, right before his days in the University, during and even after then. He has gone ahead to nurture and raise men through discipleship and has over the years, discipled a large number of young people across the nations of the earth who are committed and growing in faith to the glory of God. His life of worship has been popularized in recent times leveraging the social media space and has been a blessing to millions of lives across the globe. Pastor Tobi Omojowo is based in the city of Lagos from where he reaches the ends of the earth."
+          "Pastor Tobi Omojowo is an Itinerant preacher, a Passionate Worshipper, a Devoted Missionary, an Author and the Senior Pastor of Glory Hills Community Church, Lagos State, Nigeria.",
+          "His love and passion for God and His Kingdom has made him serve in different capacities over his many years of walking with the Lord, right before his days in the University, during and even after then. He has gone ahead to nurture and raise men through discipleship and has over the years, discipled a large number of young people across the nations of the earth who are committed and growing in faith to the glory of God.",
+          "His life of worship has been popularized in recent times leveraging the social media space and has been a blessing to millions of lives across the globe.",
+          "Pastor Tobi Omojowo is based in the city of Lagos from where he reaches the ends of the earth.",
+          "He is happily married to his beloved wife, Iretayo Tobi-Omojowo, who also pastors with him in the ministry, and they are blessed with a lovely son."
         ]
       }
     ]
   },
   "leadership": {
-    "sub_title": "",
+    "sub_title": "Our Pastoral Team",
     "leadership_team": [
-     
       {
-        "image": "../images/pastor_tunde.jpg",
-        "name": "Pastor Tunde Ogunseye",
-        "title": "Resident Pastor",
-        "url": "#"
+        "image": "/images/leadership/pastor_tunde.webp",
+        "name": "Pastor Babatunde Ogunseye",
+        "title": "Resident Pastor"
       },
       {
-        "image": "../images/tayo.jpg",
-        "name": "Pastor Omojowo Iretayo",
-        "title": "Asscoiate Pastor",
-        "url": "#"
-      },
-      {
-        "image": "../images/tinu.jpg",
+        "image": "/images/leadership/tinu.webp",
         "name": "Pastor Tinuade Ogunseye",
-        "title": "Associate Pastor",
-        "url": "#"
+        "title": "Associate Pastor"
       },
       {
-        "image": "../images/gid.jpg",
-        "name": "Pastor Gideon Femi",
-        "title": "Pastor",
-        "url": "#"
+        "image": "/images/leadership/pastor_tibebi.webp",
+        "name": "Pastor Tibebi Goodman",
+        "title": "Pastor"
       },
       {
-        "image": "../images/fol.jpg",
-        "name": "Pastor Ogundele Folake",
-        "title": "Pastor",
-        "url": "#"
+        "image": "/images/leadership/fol.webp",
+        "name": "Pastor Folake Ogundele",
+        "title": "Pastor"
       },
       {
-        "image": "../images/pastor_tibebi.jpg",
-        "name": "Pastor Goodman Tibebi",
-        "title": "Pastor",
-        "url": "#"
+        "image": "/images/leadership/gid.webp",
+        "name": "Pastor Gideon Ayobami",
+        "title": "Pastor"
+      },
+      {
+        "image": "/images/leadership/tayo.webp",
+        "name": "Pastor Iretayo Tobi-Omojowo",
+        "title": "Associate Pastor"
       }
     ]
-  },
-  "testimonies": [
-    {
-      "image": "../images/testifier.jpg",
-      "quote": "Lorem ipsum dolor sit amet consectetur. In interdum quisque ipsum adipiscing. Tortor posuere amet nisl eleifend aliquam id mauris in ut. Erat amet in arcu placerat morbi nulla et tempor.",
-      "subject": "Titilayo Omotimeyin"
-    },
-    {
-      "image": "../images/testifier.jpg",
-      "quote": "Lorem ipsum dolor sit amet consectetur. In interdum quisque ipsum adipiscing. Tortor posuere amet nisl eleifend aliquam id mauris in ut. Erat amet in arcu placerat morbi nulla et tempor.",
-      "subject": "Titilayo Omotimeyin"
-    },
-    {
-      "image": "../images/testifier.jpg",
-      "quote": "Lorem ipsum dolor sit amet consectetur. In interdum quisque ipsum adipiscing. Tortor posuere amet nisl eleifend aliquam id mauris in ut. Erat amet in arcu placerat morbi nulla et tempor.",
-      "subject": "Titilayo Omotimeyin"
-    }
-  ]
+  }
 }
