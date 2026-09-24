@@ -21,6 +21,7 @@ test('PostgreSQL RLS: media_editor, content_admin, super_admin, and anonymous bo
   `);
 
   await db.exec(await readFile('../supabase/migrations/202609150001_initial.sql', 'utf8'));
+  await db.exec(await readFile('../supabase/migrations/202609240001_editor_boundaries.sql','utf8'));
 
   await db.exec(`
     grant select,insert,update,delete on all tables in schema public to anon,authenticated,service_role;
@@ -70,6 +71,9 @@ test('PostgreSQL RLS: media_editor, content_admin, super_admin, and anonymous bo
   await db.exec(`insert into content(kind,slug,title,status) values('sermons','editor-sermon','Editor Sermon','draft')`);
   // Media editor CANNOT insert giving_methods
   await assert.rejects(db.exec(`insert into content(kind,slug,title,status) values('giving_methods','hack','Hack','draft')`));
+  await assert.rejects(db.exec(`insert into content(kind,slug,title) values('seo','escape','Escape')`));
+  await db.exec(`delete from storage.objects where name='draft.jpg'`);
+  assert.equal((await db.query(`select name from storage.objects where name='draft.jpg'`)).rows.length,1);
   // Media editor CANNOT permanently delete content (RLS policy protects content)
   await db.query(`delete from content where slug='editor-sermon'`);
   assert.equal((await db.query(`select * from content where slug='editor-sermon'`)).rows.length, 1);

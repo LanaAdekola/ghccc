@@ -9,7 +9,7 @@ export default function Consent() {
   function save(value: string) {
     const isGranted = value === 'granted';
     updateConsentState(isGranted);
-    setMessage(isGranted ? 'Optional analytics allowed.' : 'Optional analytics disabled.');
+    setMessage(isGranted ? 'Optional analytics and advertising allowed.' : 'Optional analytics and advertising disabled.');
     if (!isGranted) {
       setTimeout(() => window.location.reload(), 300);
     }
@@ -19,10 +19,10 @@ export default function Consent() {
     <>
       <div className="actions" style={{justifyContent: 'flex-start'}}>
         <button className="button" onClick={() => save('granted')}>
-          Allow analytics
+          Allow analytics and advertising
         </button>
         <button className="button light" onClick={() => save('denied')}>
-          Reject optional analytics
+          Reject optional services
         </button>
       </div>
       <p role="status">{message}</p>

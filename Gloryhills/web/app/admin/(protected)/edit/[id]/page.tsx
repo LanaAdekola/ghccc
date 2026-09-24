@@ -1,3 +1,4 @@
+import {origin} from '@/lib/seo';
 import {notFound, redirect} from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -238,7 +239,7 @@ export default async function Edit({
             </p>
             <div style={{fontFamily: 'arial, sans-serif', color: '#202124'}}>
               <div style={{fontSize: '0.8rem', color: '#202124', marginBottom: 2}}>
-                https://gloryhills.church/{row?.kind === 'pages' ? row?.slug : `${row?.kind || 'content'}/${row?.slug || 'preview'}`}
+                {origin()}/{row?.kind === 'pages' ? row?.slug : `${row?.kind || 'content'}/${row?.slug || 'preview'}`}
               </div>
               <div style={{fontSize: '1.2rem', color: '#1a0dab', textDecoration: 'none', lineHeight: '1.3'}}>
                 {row?.seo_title || row?.title || 'Page Title'} | Glory Hills Community Church
@@ -250,6 +251,7 @@ export default async function Edit({
           </div>
         </fieldset>
 
+        <fieldset><legend>Content-specific details</legend><p>Complete the fields relevant to this content. Service schedules need location, day, start, end and timezone; gallery images need the album slug.</p>{[['speaker','Sermon speaker'],['venue','Event venue'],['location','Service location'],['day','Service day'],['start','Start time (HH:MM)'],['end','End time (HH:MM)'],['timezone','Timezone (Africa/Lagos)'],['album_slug','Gallery album slug']].map(([key,label])=><label key={key}>{label}<input name={'field_'+key} defaultValue={currentData[key]||''}/></label>)}</fieldset>
         {/* Additional Data Envelope (Preserved for system configuration) */}
         {role !== 'media_editor' && (
           <details style={{marginBottom: 24}}>

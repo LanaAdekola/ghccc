@@ -4,9 +4,10 @@ import {cookies} from 'next/headers';
 import {redirect} from 'next/navigation';
 import {configured} from './content';
 
-export type AdminRole = 'media_editor' | 'content_admin' | 'super_admin';
+export type AdminRole = 'media_editor' | 'content_admin' | 'super_admin' | 'marketing_admin';
 
 const roleRank: Record<AdminRole, number> = {
+  marketing_admin: 0,
   media_editor: 1,
   content_admin: 2,
   super_admin: 3,
@@ -43,11 +44,10 @@ export async function requireAdmin(minRole: AdminRole = 'media_editor') {
   if (!roleRow) redirect('/admin/login?error=access');
 
   const rawRole = roleRow.role as string;
-  const role: AdminRole =
-    rawRole === 'super_admin' ? 'super_admin' : rawRole === 'media_editor' ? 'media_editor' : 'content_admin';
-
-  if (roleRank[role] < roleRank[minRole]) {
-    redirect('/admin?error=forbidden');
+  if (!(rawRole in roleRank)) redirect('/admin/login?error=access');
+  const role = rawRole as AdminRole;
+  if (minRole !== 'marketing_admin' && roleRank[role] < roleRank[minRole]) {
+    redirect(role === 'marketing_admin' ? '/admin/marketing' : '/admin?error=forbidden');
   }
 
   return {db, user, role};

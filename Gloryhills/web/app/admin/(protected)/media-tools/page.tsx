@@ -1,13 +1,15 @@
 import Link from 'next/link';
 import {requireAdmin} from '@/lib/supabase';
 import {origin} from '@/lib/seo';
+import {normalizeMarketing} from '@/lib/marketing';
 
 export default async function MediaTools() {
-  await requireAdmin('media_editor');
-
-  const gtmId = process.env.NEXT_PUBLIC_GTM_ID || 'GTM-T387T88K';
+  const {db,role}=await requireAdmin('marketing_admin');
+  const {data}=await db.from('content').select('data').eq('kind','settings').eq('slug','marketing').maybeSingle();
+  const settings=normalizeMarketing(data?.data||{});
+  const gtmId=settings.gtm_id;
   const siteUrl = origin();
-  const isGtmValid = Boolean(gtmId && /^GTM-[A-Z0-9]+$/.test(gtmId));
+  const isGtmValid = Boolean(settings.gtm_enabled==='true' && gtmId);
 
   const tools = [
     {
@@ -30,7 +32,7 @@ export default async function MediaTools() {
       name: 'Google Ads',
       url: 'https://ads.google.com/',
       badge: 'Campaigns & Ad Grants',
-      purpose: 'Manage Google Church Ad Grants or local outreach campaigns. Conversion events flow automatically from GTM.',
+      purpose: 'Manage Google Church Ad Grants or local outreach campaigns. Your media specialist must configure and verify conversion tags in GTM.',
       permission: 'Standard User access on church Google Ads account',
       icon: '🎯',
     },
@@ -46,7 +48,7 @@ export default async function MediaTools() {
       name: 'Meta Business Manager',
       url: 'https://business.facebook.com/',
       badge: 'Instagram & Facebook Ads',
-      purpose: 'Manage Facebook/Instagram church page posts, campaigns, and Conversions API tags via Google Tag Manager.',
+      purpose: 'Manage Facebook/Instagram church page posts, campaigns, and approved Pixel measurement through GTM. Server-side Conversions API is not implemented.',
       permission: 'Employee access with required Page & Ad Account assets',
       icon: '📱',
     },
@@ -61,16 +63,16 @@ export default async function MediaTools() {
     },
     {
       name: 'Tracking Event Dictionary',
-      url: '/docs/TRACKING_EVENT_DICTIONARY.md',
+      url: '/admin/guide/TRACKING_EVENT_DICTIONARY',
       badge: 'Reference Documentation',
-      purpose: 'View the complete catalog of all 17 privacy-filtered events, parameters, and mapped advertising goals.',
+      purpose: 'View the complete catalog of implemented events, reserved events and outstanding destination verification.',
       permission: 'Public reference doc in codebase /docs',
       icon: '📖',
       isInternal: true,
     },
     {
       name: 'Post-Launch Verification Guide',
-      url: '/docs/POST_LAUNCH_VERIFICATION.md',
+      url: '/admin/guide/POST_LAUNCH_VERIFICATION',
       badge: 'Testing Protocol',
       purpose: 'Step-by-step checklist to test Tag Assistant, test conversions, verify WCAG accessibility, and confirm zero PII transmission.',
       permission: 'Public reference doc in codebase /docs',
@@ -79,6 +81,7 @@ export default async function MediaTools() {
     },
   ];
 
+  const visibleTools=tools.filter(t=>!(role==='marketing_admin'&&t.name==='Website SEO Manager'));
   return (
     <div>
       <div style={{marginBottom: 28}}>
@@ -90,9 +93,9 @@ export default async function MediaTools() {
         </p>
       </div>
 
-      {/* External Platforms Grid */}
+      <p><Link href="/admin/guide/MEDIA_TEAM_HANDOFF">Read the media-team handover guide</Link></p>{/* External Platforms Grid */}
       <div className="cards" style={{marginBottom: 48}}>
-        {tools.map((t) => (
+        {visibleTools.map((t) => (
           <article
             key={t.name}
             className="card"
@@ -160,7 +163,7 @@ export default async function MediaTools() {
           <p className="eyebrow" style={{margin: 0}}>HEALTH & CONFIGURATION AUDIT</p>
           <h2 style={{fontSize: '1.35rem', marginTop: 4}}>Read-Only Technical Integration Status</h2>
           <p style={{color: '#666', fontSize: '0.85rem', margin: 0}}>
-            Live audit of SEO, tags, and indexing configurations. Passwords, secrets, and API keys are never stored or displayed here.
+            Configuration summary only; this does not verify delivery, ownership or external accounts. Passwords, secrets, and API keys are never stored or displayed here.
           </p>
         </div>
 
@@ -179,7 +182,7 @@ export default async function MediaTools() {
               Google Tag Manager Container
             </span>
             <p style={{margin: '4px 0 0', fontWeight: 600, fontSize: '0.95rem', color: isGtmValid ? '#15803d' : '#ca8a04'}}>
-              {gtmId} ({isGtmValid ? 'Active' : 'Unconfigured'})
+              {gtmId} ({isGtmValid ? 'Configured; delivery unverified' : 'Disabled or unconfigured'})
             </p>
           </div>
 
@@ -188,7 +191,7 @@ export default async function MediaTools() {
               Cookie Consent System
             </span>
             <p style={{margin: '4px 0 0', fontWeight: 600, fontSize: '0.95rem', color: '#15803d'}}>
-              Active (Consent Mode v2 Enabled)
+              Implemented; production behavior unverified
             </p>
           </div>
 
@@ -237,7 +240,7 @@ export default async function MediaTools() {
               Last Production Verification
             </span>
             <p style={{margin: '4px 0 0', fontWeight: 600, fontSize: '0.95rem', color: '#0f172a'}}>
-              2026-09-16 (Passed all 17 Events & WCAG AA)
+              Pending — see production-readiness audit
             </p>
           </div>
         </div>

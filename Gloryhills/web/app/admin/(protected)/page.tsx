@@ -33,7 +33,7 @@ export default async function Admin({
   return (
     <>
       <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16}}>
-        <h1>Content Dashboard</h1>
+        <div><p className="eyebrow">YOUR CHURCH, ONLINE</p><h1>Content dashboard</h1><p className="admin-intro">Keep your community informed. Manage messages, events and stories in one place.</p></div>
         <Link href="/admin/edit/new" className="button small">
           + Create New Content
         </Link>
@@ -83,7 +83,7 @@ export default async function Admin({
           <Link
             key={x}
             href={`/admin?kind=${x}${q.status ? `&status=${q.status}` : ''}`}
-            style={{fontWeight: q.kind === x ? 'bold' : 'normal'}}
+            aria-current={q.kind === x ? 'page' : undefined}
           >
             {x.replaceAll('_', ' ')}
           </Link>
@@ -115,7 +115,7 @@ export default async function Admin({
                 </div>
 
                 <h2 style={{fontSize: '1.25rem', marginTop: 0}}>{x.title}</h2>
-                {x.description && <p style={{fontSize: '0.9rem', color: '#555'}}>{x.description.slice(0, 120)}...</p>}
+                {x.description && <p style={{fontSize: '0.9rem', color: '#555'}}>{x.description.slice(0, 120)}{x.description.length > 120 ? '…' : ''}</p>}
 
                 <div style={{fontSize: '0.78rem', color: '#777', margin: '12px 0'}}>
                   <p style={{margin: '2px 0'}}>Updated: {new Date(x.updated_at).toLocaleString()}</p>
@@ -182,7 +182,7 @@ export default async function Admin({
         <>
           <h2 style={{marginTop: 60}}>Private Form Submissions</h2>
           <p style={{color: '#666', fontSize: '0.9rem'}}>
-            Confidential prayer requests and visitor inquiries. Submissions auto-expire after 90 days.
+            Confidential prayer requests and visitor inquiries. Review and delete according to your retention policy.
           </p>
           <div className="cards">
             {submissions && submissions.length > 0 ? (
@@ -234,7 +234,7 @@ export default async function Admin({
             <label>
               Assigned Role
               <select name="role">
-                <option value="media_editor">Media Editor (Sermons, Events, Social, Photos)</option>
+                <option value="marketing_admin">Marketing administrator</option><option value="media_editor">Media Editor (Sermons, Events, Social, Photos)</option>
                 <option value="content_admin">Content Admin (Full CMS Content + Form Review)</option>
                 <option value="super_admin">Super Administrator (Full System + Roles + Audit Logs)</option>
                 <option value="remove">Remove Access</option>

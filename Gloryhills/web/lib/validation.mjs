@@ -58,6 +58,7 @@ export const contentInput = z
     seo_description: z.string().max(300),
     data: z.record(z.string().max(80), z.string().max(2000)),
   })
+  .refine((x) => x.status !== 'published' || (requiredWhenPublished[x.kind] || []).every(key => Boolean(x.data[key]?.trim())), {message:'Complete the required content-specific fields before publishing'})
   .refine((x) => !x.image_url || x.image_alt.length > 0, {message: 'Images need descriptive alt text'})
   .refine(
     (x) =>

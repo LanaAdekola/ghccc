@@ -20,3 +20,20 @@ Additional structured fields use labelled forms per content type, not JSON. Givi
 Homepage title/description replace the hero copy; body edits the welcome text. Homepage section order is set with the ordered dropdowns in the editor rather than by typing a list. Featured checkbox and display order prioritize records. Sermons/events have detail routes and SEO fields. Gallery images attach to album_slug. Published settings override the versioned confirmed fallback. Other collection workflows and preview fidelity should be verified against the new project before handing over to the media team.
 
 Private submissions appear only to administrators. Delete after responding according to the approved retention policy. No notification email is sent yet. Database defaults suggest 90 days but do not automatically delete expired records; approve retention and configure a scheduled cleanup before accepting public submissions.
+
+## Password recovery
+
+The login page links to `/admin/forgot-password`. In Supabase Authentication →
+URL Configuration, allow `http://localhost:3000/auth/callback` and the production
+`https://YOUR-DOMAIN/auth/callback`. Set `NEXT_PUBLIC_SITE_URL` to the current
+site origin. Keep the reset email template's standard `{{ .ConfirmationURL }}`
+link. Request the reset from this website and open the email in the same browser
+so the PKCE verifier cookie is available. The callback establishes a session,
+then `/admin/reset-password` accepts and confirms the new password. Expired links
+show a recovery message. Configure Supabase SMTP if email delivery is unavailable
+or its testing limits prevent delivery.
+
+The app launched by the root workspace scripts reads `web/.env.local`.
+`NEXT_PUBLIC_SUPABASE_URL` must be the project origin, never its `/rest/v1/`
+endpoint. Restart Next.js after changing environment files; update Vercel's
+values separately and redeploy. Do not copy secret values into Git or chat.

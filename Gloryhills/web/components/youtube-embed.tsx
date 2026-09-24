@@ -19,7 +19,7 @@ export default function YouTubeEmbed({url, title, aspectRatio = '16 / 9', classN
 
   if (!videoId) {
     return (
-      <a className="button" href={url} target="_blank" rel="noreferrer" onClick={() => track('listen_click')}>
+      <a className="button" href={url} target="_blank" rel="noreferrer">
         Watch on YouTube
       </a>
     );
@@ -27,7 +27,7 @@ export default function YouTubeEmbed({url, title, aspectRatio = '16 / 9', classN
 
   const handlePlay = () => {
     setIsPlaying(true);
-    track('sermon_play');
+    track('sermon_play_requested');
   };
 
   const embedUrl = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1`;

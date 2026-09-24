@@ -197,7 +197,7 @@ export default function MeetOurPastor() {
             <p>
               With a deep mandate to raise men through intentional discipleship, Pastor Tobi ministers across nations with
               signs following. His exposition of the scriptures — from the Book of Romans to the foundations of faith —
-              continues to ground believers in the truth of God's Word.
+              continues to ground believers in the truth of God&apos;s Word.
             </p>
             <p>
               Listen to sermons from Sunday worship services, mid-week teachings, and special conferences.
@@ -220,7 +220,7 @@ export default function MeetOurPastor() {
             <p className="eyebrow">MINISTRY IN ACTION</p>
             <h2>Going to the nations.</h2>
             <p>
-              From village outreaches to university campuses, from Lagos Prayer Conferences to Believer's Gatherings
+              From village outreaches to university campuses, from Lagos Prayer Conferences to Believer&apos;s Gatherings
               across the nations — Pastor Tobi carries the gospel to wherever the Lord sends.
             </p>
             <Link className="button" href="/events">

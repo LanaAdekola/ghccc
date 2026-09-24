@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {chromium} from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 import {mkdir,writeFile} from 'node:fs/promises';
-const base='http://127.0.0.1:3000';
+const base=process.env.TEST_BASE_URL||'http://127.0.0.1:3000';
 test('Production public routes, mobile navigation, metadata, empty states and accessibility',async()=>{
  const browser=await chromium.launch({channel:'chrome',headless:true,args:['--no-proxy-server']});const context=await browser.newContext();const page=await context.newPage();const errors=[];page.on('pageerror',e=>errors.push(e.message));const routes=['/','/about-us','/leadership','/sermons','/events','/give','/visit-us','/contact','/prayer-request','/plan-your-visit','/cookies'];const results=[];await mkdir('test-results',{recursive:true});
  for(const route of routes){const response=await page.goto(base+route);assert.equal(response.status(),200,route);assert.equal(await page.locator('h1').count(),1,route);assert.ok(await page.title());assert.ok(await page.locator('link[rel=canonical]').getAttribute('href'));const a=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).exclude('iframe').analyze();results.push({route,violations:a.violations.map(x=>({id:x.id,impact:x.impact,nodes:x.nodes.map(n=>n.target)}))});}

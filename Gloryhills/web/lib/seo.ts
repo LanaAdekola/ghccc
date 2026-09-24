@@ -13,7 +13,8 @@ export interface MetaOptions {
 }
 
 export function meta(title: string, description: string, path: string, options?: MetaOptions): Metadata {
-  const shareImage = options?.image || '/images/brand/default-social-share.jpg';
+  const rawImage=options?.image;
+  const shareImage=rawImage ? (/^https:\/\//.test(rawImage)||rawImage.startsWith('/')?rawImage:`/api/media/${encodeURIComponent(rawImage)}`) : '/images/brand/default-social-share.jpg';
   const ogTitle = options?.ogTitle || `${title} | ${churchName}`;
   const ogDesc = options?.ogDescription || description;
 

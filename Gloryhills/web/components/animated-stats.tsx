@@ -16,7 +16,7 @@ const defaultStats: StatItem[] = [
 
 export default function AnimatedStats({stats = defaultStats}: {stats?: StatItem[]}) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [counts, setCounts] = useState<number[]>(stats.map(() => 0));
+  const [counts, setCounts] = useState<number[]>(stats.map(stat => stat.number));
   const hasAnimated = useRef(false);
 
   useEffect(() => {
@@ -62,9 +62,7 @@ export default function AnimatedStats({stats = defaultStats}: {stats?: StatItem[
         {stats.map((stat, i) => (
           <div className="stat-item" key={stat.label}>
             <span className="stat-number">
-              {counts[i] === 0 && !hasAnimated.current
-                ? `${stat.number.toLocaleString()}${stat.suffix || ''}`
-                : `${counts[i].toLocaleString()}${stat.suffix || ''}`}
+              {`${counts[i].toLocaleString()}${stat.suffix || ''}`}
             </span>
             <span className="stat-label">{stat.label}</span>
           </div>
@@ -73,3 +71,4 @@ export default function AnimatedStats({stats = defaultStats}: {stats?: StatItem[
     </section>
   );
 }
+

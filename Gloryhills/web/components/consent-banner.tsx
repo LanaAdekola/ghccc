@@ -62,7 +62,7 @@ export default function ConsentBanner() {
         }}
       >
         <p style={{margin: 0, fontSize: '0.9rem', lineHeight: '1.5', maxWidth: '75ch'}}>
-          We use privacy-respecting analytics to improve the church website experience. No personal names, emails, prayer requests, or financial details are ever shared.{' '}
+          With your permission, we use optional analytics and advertising services to understand visits and support our outreach. Our tracking events do not include submitted prayer requests, contact messages or bank details.{' '}
           <Link href="/cookies" style={{color: '#fff', textDecoration: 'underline'}}>
             Cookie preferences
           </Link>
@@ -74,7 +74,7 @@ export default function ConsentBanner() {
             onClick={() => handleConsent('granted')}
             style={{background: '#74162a', color: '#fff'}}
           >
-            Accept Analytics
+            Accept optional services
           </button>
           <button
             type="button"

@@ -23,3 +23,8 @@ output directory. Package manifests pin the Node major to 24.x.
 
 Commit and push these changes, then deploy the new commit without reusing the
 old build cache. The ESLint deprecation notice is unrelated to Next.js detection.
+
+## Current production audit gate
+
+See PRODUCTION_READINESS_AUDIT.md before handover. Deploy the current intended commit (including untracked new files) only after review; do not commit environment files. The repository's Next app is Gloryhills/web relative to the Git root. Verify that root in Vercel.
+Set production NEXT_PUBLIC_SITE_URL=https://www.ghccglobal.com and redeploy. Keep localhost locally. Configure preview isolation and Auth redirects separately. Apply both marketing migrations in order, then 202609240001_editor_boundaries.sql. Never rerun the initial schema on an existing project. Verify deployed migrations and grants with disposable test users.

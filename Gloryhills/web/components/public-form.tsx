@@ -32,11 +32,15 @@ export default function PublicForm({kind}: {kind: string}) {
           if (res.ok) {
             form.reset();
             if (kind === 'prayer-request') {
-              track('prayer_request_submitted');
+              // Private pastoral activity is excluded from marketing.
             } else if (kind === 'newsletter') {
               track('newsletter_signup');
-            } else {
+            } else if (kind === 'contact') {
               track('contact_form_submitted');
+            } else if (kind === 'event-interest') {
+              track('event_interest_submitted');
+            } else if (kind === 'plan-your-visit') {
+              track('visit_request_submitted');
             }
           }
         } catch {

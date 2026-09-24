@@ -1,0 +1,504 @@
+{
+  "tested_at_utc": "2026-09-24T11:16:54.932873+00:00",
+  "production": "https://www.ghccglobal.com",
+  "environment_presence_only": [
+    {
+      "file": "web/.env.local",
+      "variable": "NEXT_PUBLIC_SITE_URL",
+      "state": "present; local or noncanonical"
+    },
+    {
+      "file": "web/.env.local",
+      "variable": "NEXT_PUBLIC_SUPABASE_URL",
+      "state": "present; valid origin"
+    },
+    {
+      "file": "web/.env.local",
+      "variable": "NEXT_PUBLIC_SUPABASE_ANON_KEY",
+      "state": "present"
+    },
+    {
+      "file": "web/.env.local",
+      "variable": "SUPABASE_SERVICE_ROLE_KEY",
+      "state": "missing"
+    },
+    {
+      "file": "web/.env.local",
+      "variable": "NEXT_PUBLIC_GTM_ID",
+      "state": "missing"
+    },
+    {
+      "file": "web/.env.local",
+      "variable": "NEXT_PUBLIC_GA_MEASUREMENT_ID",
+      "state": "missing"
+    },
+    {
+      "file": "web/.env.local",
+      "variable": "NEXT_PUBLIC_GOOGLE_ADS_ID",
+      "state": "missing"
+    },
+    {
+      "file": "web/.env.local",
+      "variable": "NEXT_PUBLIC_GOOGLE_SEARCH_CONSOLE_VERIFICATION",
+      "state": "missing"
+    },
+    {
+      "file": "web/.env.local",
+      "variable": "NEXT_PUBLIC_META_PIXEL_ID",
+      "state": "missing"
+    },
+    {
+      "file": "web/.env.local",
+      "variable": "TURNSTILE_SECRET_KEY",
+      "state": "missing"
+    },
+    {
+      "file": "web/.env.local",
+      "variable": "NEXT_PUBLIC_TURNSTILE_SITE_KEY",
+      "state": "missing"
+    },
+    {
+      "file": "web/.env.local",
+      "variable": "RATE_LIMIT_SECRET",
+      "state": "present"
+    },
+    {
+      "file": "supabase/.env.local",
+      "variable": "NEXT_PUBLIC_SITE_URL",
+      "state": "missing; local or noncanonical"
+    },
+    {
+      "file": "supabase/.env.local",
+      "variable": "NEXT_PUBLIC_SUPABASE_URL",
+      "state": "present; valid origin"
+    },
+    {
+      "file": "supabase/.env.local",
+      "variable": "NEXT_PUBLIC_SUPABASE_ANON_KEY",
+      "state": "present"
+    },
+    {
+      "file": "supabase/.env.local",
+      "variable": "SUPABASE_SERVICE_ROLE_KEY",
+      "state": "missing"
+    },
+    {
+      "file": "supabase/.env.local",
+      "variable": "NEXT_PUBLIC_GTM_ID",
+      "state": "missing"
+    },
+    {
+      "file": "supabase/.env.local",
+      "variable": "NEXT_PUBLIC_GA_MEASUREMENT_ID",
+      "state": "missing"
+    },
+    {
+      "file": "supabase/.env.local",
+      "variable": "NEXT_PUBLIC_GOOGLE_ADS_ID",
+      "state": "missing"
+    },
+    {
+      "file": "supabase/.env.local",
+      "variable": "NEXT_PUBLIC_GOOGLE_SEARCH_CONSOLE_VERIFICATION",
+      "state": "missing"
+    },
+    {
+      "file": "supabase/.env.local",
+      "variable": "NEXT_PUBLIC_META_PIXEL_ID",
+      "state": "missing"
+    },
+    {
+      "file": "supabase/.env.local",
+      "variable": "TURNSTILE_SECRET_KEY",
+      "state": "missing"
+    },
+    {
+      "file": "supabase/.env.local",
+      "variable": "NEXT_PUBLIC_TURNSTILE_SITE_KEY",
+      "state": "missing"
+    },
+    {
+      "file": "supabase/.env.local",
+      "variable": "RATE_LIMIT_SECRET",
+      "state": "missing"
+    }
+  ],
+  "routes": [
+    {
+      "route": "/",
+      "status": 200,
+      "final_url": "https://www.ghccglobal.com/",
+      "server": "Vercel",
+      "canonical": "http://localhost:3000",
+      "title": [
+        "Welcome home"
+      ],
+      "robots": "noindex, nofollow",
+      "description_present": true,
+      "og_present": true,
+      "twitter_present": true,
+      "h1": 1,
+      "json_ld": [
+        {
+          "type": "Church",
+          "valid_json": true
+        }
+      ],
+      "gtm_ids": [],
+      "new_admin_shell": false,
+      "scripts": [
+        "/_next/static/chunks/c7879cf7-0371ac42f28f5de7.js",
+        "/_next/static/chunks/158-dc858555b85f90ee.js",
+        "/_next/static/chunks/main-app-2b400f2e59e732fe.js",
+        "/_next/static/chunks/568-0c5ae0c58e020752.js",
+        "/_next/static/chunks/137-21c59f5364f00129.js",
+        "/_next/static/chunks/app/layout-45269749491b5eda.js",
+        "/_next/static/chunks/app/error-26f318e93ed9a0ef.js",
+        "/_next/static/chunks/901-d5a0e39eda994a79.js",
+        "/_next/static/chunks/app/page-35448a54e0d3144b.js",
+        "/_next/static/chunks/polyfills-42372ed130431b0a.js",
+        "/_next/static/chunks/webpack-3a1f805cb05a282a.js"
+      ],
+      "public_detail_links": []
+    },
+    {
+      "route": "/sermons",
+      "status": 200,
+      "final_url": "https://www.ghccglobal.com/sermons",
+      "server": "Vercel",
+      "canonical": "http://localhost:3000/sermons",
+      "title": [
+        "A word for your walk. | Glory Hills Community Church"
+      ],
+      "robots": "noindex, nofollow",
+      "description_present": true,
+      "og_present": true,
+      "twitter_present": true,
+      "h1": 1,
+      "json_ld": [
+        {
+          "type": "ItemList",
+          "valid_json": true
+        },
+        {
+          "type": "Church",
+          "valid_json": true
+        }
+      ],
+      "gtm_ids": [],
+      "new_admin_shell": false,
+      "scripts": [
+        "/_next/static/chunks/c7879cf7-0371ac42f28f5de7.js",
+        "/_next/static/chunks/158-dc858555b85f90ee.js",
+        "/_next/static/chunks/main-app-2b400f2e59e732fe.js",
+        "/_next/static/chunks/568-0c5ae0c58e020752.js",
+        "/_next/static/chunks/137-21c59f5364f00129.js",
+        "/_next/static/chunks/app/layout-45269749491b5eda.js",
+        "/_next/static/chunks/app/error-26f318e93ed9a0ef.js",
+        "/_next/static/chunks/901-d5a0e39eda994a79.js",
+        "/_next/static/chunks/app/%5Bpage%5D/page-31ec9832de3c2a2c.js",
+        "/_next/static/chunks/polyfills-42372ed130431b0a.js",
+        "/_next/static/chunks/webpack-3a1f805cb05a282a.js"
+      ],
+      "public_detail_links": []
+    },
+    {
+      "route": "/events",
+      "status": 200,
+      "final_url": "https://www.ghccglobal.com/events",
+      "server": "Vercel",
+      "canonical": "http://localhost:3000/events",
+      "title": [
+        "Life together. | Glory Hills Community Church"
+      ],
+      "robots": "noindex, nofollow",
+      "description_present": true,
+      "og_present": true,
+      "twitter_present": true,
+      "h1": 1,
+      "json_ld": [
+        {
+          "type": "ItemList",
+          "valid_json": true
+        },
+        {
+          "type": "Church",
+          "valid_json": true
+        }
+      ],
+      "gtm_ids": [],
+      "new_admin_shell": false,
+      "scripts": [
+        "/_next/static/chunks/c7879cf7-0371ac42f28f5de7.js",
+        "/_next/static/chunks/158-dc858555b85f90ee.js",
+        "/_next/static/chunks/main-app-2b400f2e59e732fe.js",
+        "/_next/static/chunks/568-0c5ae0c58e020752.js",
+        "/_next/static/chunks/137-21c59f5364f00129.js",
+        "/_next/static/chunks/app/layout-45269749491b5eda.js",
+        "/_next/static/chunks/app/error-26f318e93ed9a0ef.js",
+        "/_next/static/chunks/901-d5a0e39eda994a79.js",
+        "/_next/static/chunks/app/%5Bpage%5D/page-31ec9832de3c2a2c.js",
+        "/_next/static/chunks/polyfills-42372ed130431b0a.js",
+        "/_next/static/chunks/webpack-3a1f805cb05a282a.js"
+      ],
+      "public_detail_links": []
+    },
+    {
+      "route": "/give",
+      "status": 200,
+      "final_url": "https://www.ghccglobal.com/give",
+      "server": "Vercel",
+      "canonical": "http://localhost:3000/give",
+      "title": [
+        "A generous heart. | Glory Hills Community Church"
+      ],
+      "robots": "noindex, nofollow",
+      "description_present": true,
+      "og_present": true,
+      "twitter_present": true,
+      "h1": 1,
+      "json_ld": [
+        {
+          "type": "Church",
+          "valid_json": true
+        }
+      ],
+      "gtm_ids": [],
+      "new_admin_shell": false,
+      "scripts": [
+        "/_next/static/chunks/c7879cf7-0371ac42f28f5de7.js",
+        "/_next/static/chunks/158-dc858555b85f90ee.js",
+        "/_next/static/chunks/main-app-2b400f2e59e732fe.js",
+        "/_next/static/chunks/568-0c5ae0c58e020752.js",
+        "/_next/static/chunks/137-21c59f5364f00129.js",
+        "/_next/static/chunks/app/layout-45269749491b5eda.js",
+        "/_next/static/chunks/app/error-26f318e93ed9a0ef.js",
+        "/_next/static/chunks/901-d5a0e39eda994a79.js",
+        "/_next/static/chunks/app/%5Bpage%5D/page-31ec9832de3c2a2c.js",
+        "/_next/static/chunks/polyfills-42372ed130431b0a.js",
+        "/_next/static/chunks/webpack-3a1f805cb05a282a.js"
+      ],
+      "public_detail_links": []
+    },
+    {
+      "route": "/contact",
+      "status": 200,
+      "final_url": "https://www.ghccglobal.com/contact",
+      "server": "Vercel",
+      "canonical": "http://localhost:3000/contact",
+      "title": [
+        "Let\u2019s connect. | Glory Hills Community Church"
+      ],
+      "robots": "noindex, nofollow",
+      "description_present": true,
+      "og_present": true,
+      "twitter_present": true,
+      "h1": 1,
+      "json_ld": [
+        {
+          "type": "Church",
+          "valid_json": true
+        }
+      ],
+      "gtm_ids": [],
+      "new_admin_shell": false,
+      "scripts": [
+        "/_next/static/chunks/c7879cf7-0371ac42f28f5de7.js",
+        "/_next/static/chunks/158-dc858555b85f90ee.js",
+        "/_next/static/chunks/main-app-2b400f2e59e732fe.js",
+        "/_next/static/chunks/568-0c5ae0c58e020752.js",
+        "/_next/static/chunks/137-21c59f5364f00129.js",
+        "/_next/static/chunks/app/layout-45269749491b5eda.js",
+        "/_next/static/chunks/app/error-26f318e93ed9a0ef.js",
+        "/_next/static/chunks/901-d5a0e39eda994a79.js",
+        "/_next/static/chunks/app/%5Bpage%5D/page-31ec9832de3c2a2c.js",
+        "/_next/static/chunks/polyfills-42372ed130431b0a.js",
+        "/_next/static/chunks/webpack-3a1f805cb05a282a.js"
+      ],
+      "public_detail_links": []
+    },
+    {
+      "route": "/visit-us",
+      "status": 200,
+      "final_url": "https://www.ghccglobal.com/visit-us",
+      "server": "Vercel",
+      "canonical": "http://localhost:3000/visit-us",
+      "title": [
+        "There is a place for you. | Glory Hills Community Church"
+      ],
+      "robots": "noindex, nofollow",
+      "description_present": true,
+      "og_present": true,
+      "twitter_present": true,
+      "h1": 1,
+      "json_ld": [
+        {
+          "type": "Church",
+          "valid_json": true
+        }
+      ],
+      "gtm_ids": [],
+      "new_admin_shell": false,
+      "scripts": [
+        "/_next/static/chunks/c7879cf7-0371ac42f28f5de7.js",
+        "/_next/static/chunks/158-dc858555b85f90ee.js",
+        "/_next/static/chunks/main-app-2b400f2e59e732fe.js",
+        "/_next/static/chunks/568-0c5ae0c58e020752.js",
+        "/_next/static/chunks/137-21c59f5364f00129.js",
+        "/_next/static/chunks/app/layout-45269749491b5eda.js",
+        "/_next/static/chunks/app/error-26f318e93ed9a0ef.js",
+        "/_next/static/chunks/901-d5a0e39eda994a79.js",
+        "/_next/static/chunks/app/%5Bpage%5D/page-31ec9832de3c2a2c.js",
+        "/_next/static/chunks/polyfills-42372ed130431b0a.js",
+        "/_next/static/chunks/webpack-3a1f805cb05a282a.js"
+      ],
+      "public_detail_links": []
+    },
+    {
+      "route": "/admin",
+      "status": 200,
+      "final_url": "https://www.ghccglobal.com/admin/login",
+      "server": "Vercel",
+      "canonical": "",
+      "title": [
+        "Administration | Glory Hills Community Church"
+      ],
+      "robots": "noindex, nofollow",
+      "description_present": true,
+      "og_present": false,
+      "twitter_present": false,
+      "h1": 1,
+      "json_ld": [
+        {
+          "type": "Church",
+          "valid_json": true
+        }
+      ],
+      "gtm_ids": [],
+      "new_admin_shell": false,
+      "scripts": [
+        "/_next/static/chunks/c7879cf7-0371ac42f28f5de7.js",
+        "/_next/static/chunks/158-dc858555b85f90ee.js",
+        "/_next/static/chunks/main-app-2b400f2e59e732fe.js",
+        "/_next/static/chunks/568-0c5ae0c58e020752.js",
+        "/_next/static/chunks/137-21c59f5364f00129.js",
+        "/_next/static/chunks/app/layout-45269749491b5eda.js",
+        "/_next/static/chunks/app/error-26f318e93ed9a0ef.js",
+        "/_next/static/chunks/app/admin/(protected)/page-16f54276334b70fb.js",
+        "/_next/static/chunks/polyfills-42372ed130431b0a.js",
+        "/_next/static/chunks/webpack-3a1f805cb05a282a.js"
+      ],
+      "public_detail_links": []
+    },
+    {
+      "route": "/admin/login",
+      "status": 200,
+      "final_url": "https://www.ghccglobal.com/admin/login",
+      "server": "Vercel",
+      "canonical": "",
+      "title": [
+        "Administration | Glory Hills Community Church"
+      ],
+      "robots": "noindex, nofollow",
+      "description_present": true,
+      "og_present": false,
+      "twitter_present": false,
+      "h1": 1,
+      "json_ld": [
+        {
+          "type": "Church",
+          "valid_json": true
+        }
+      ],
+      "gtm_ids": [],
+      "new_admin_shell": false,
+      "scripts": [
+        "/_next/static/chunks/c7879cf7-0371ac42f28f5de7.js",
+        "/_next/static/chunks/158-dc858555b85f90ee.js",
+        "/_next/static/chunks/main-app-2b400f2e59e732fe.js",
+        "/_next/static/chunks/568-0c5ae0c58e020752.js",
+        "/_next/static/chunks/137-21c59f5364f00129.js",
+        "/_next/static/chunks/app/layout-45269749491b5eda.js",
+        "/_next/static/chunks/app/error-26f318e93ed9a0ef.js",
+        "/_next/static/chunks/app/admin/(protected)/page-16f54276334b70fb.js",
+        "/_next/static/chunks/polyfills-42372ed130431b0a.js",
+        "/_next/static/chunks/webpack-3a1f805cb05a282a.js"
+      ],
+      "public_detail_links": []
+    },
+    {
+      "route": "/admin/marketing",
+      "status": 404
+    },
+    {
+      "route": "/admin/forgot-password",
+      "status": 404
+    },
+    {
+      "route": "/admin/reset-password",
+      "status": 404
+    },
+    {
+      "route": "/sitemap.xml",
+      "status": 200,
+      "final_url": "https://www.ghccglobal.com/sitemap.xml",
+      "server": "Vercel",
+      "canonical": "",
+      "title": [],
+      "robots": null,
+      "description_present": false,
+      "og_present": false,
+      "twitter_present": false,
+      "h1": 0,
+      "json_ld": [],
+      "gtm_ids": [],
+      "new_admin_shell": false,
+      "scripts": [],
+      "public_detail_links": [],
+      "xml_urls": [
+        "http://localhost:3000",
+        "http://localhost:3000/about-us",
+        "http://localhost:3000/leadership",
+        "http://localhost:3000/sermons",
+        "http://localhost:3000/events",
+        "http://localhost:3000/give",
+        "http://localhost:3000/visit-us",
+        "http://localhost:3000/contact",
+        "http://localhost:3000/prayer-request",
+        "http://localhost:3000/plan-your-visit",
+        "http://localhost:3000/cookies"
+      ]
+    },
+    {
+      "route": "/robots.txt",
+      "status": 200,
+      "final_url": "https://www.ghccglobal.com/robots.txt",
+      "server": "Vercel",
+      "canonical": "",
+      "title": [],
+      "robots": null,
+      "description_present": false,
+      "og_present": false,
+      "twitter_present": false,
+      "h1": 0,
+      "json_ld": [],
+      "gtm_ids": [],
+      "new_admin_shell": false,
+      "scripts": [],
+      "public_detail_links": [],
+      "directives": "User-Agent: *\nAllow: /\nDisallow: /admin\nDisallow: /api\n\nSitemap: http://localhost:3000/sitemap.xml\n"
+    },
+    {
+      "route": "/not-a-real-audit-page",
+      "status": 404
+    },
+    {
+      "route": "/docs/TRACKING_EVENT_DICTIONARY.md",
+      "status": 404
+    },
+    {
+      "route": "/docs/POST_LAUNCH_VERIFICATION.md",
+      "status": 404
+    }
+  ]
+}

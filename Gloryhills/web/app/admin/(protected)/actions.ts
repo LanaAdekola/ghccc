@@ -3,7 +3,7 @@
 import {redirect} from 'next/navigation';
 import {revalidatePath} from 'next/cache';
 import {requireAdmin, serverDB} from '@/lib/supabase';
-import {contentInput} from '@/lib/validation';
+import {contentInput,mediaEditorAllowedKinds} from '@/lib/validation';
 
 export async function logout() {
   const db = await serverDB();
@@ -17,13 +17,18 @@ export async function save(form: FormData) {
   const kind = String(form.get('kind') || '');
 
   // Role restriction: media_editor cannot touch sensitive giving or settings
-  if (role === 'media_editor' && ['giving_methods', 'giving_campaigns', 'settings', 'seo'].includes(kind)) {
+  if (role === 'media_editor' && !mediaEditorAllowedKinds.includes(kind)) {
     throw new Error('Forbidden: media editors cannot modify financial or sensitive site settings.');
   }
 
-  let data: Record<string, string> = {};
+  const existing=id==='new'?null:(await db.from('content').select('data,kind,slug').eq('id',id).single()).data;
+  if(id!=='new'&&!existing)redirect('/admin?error=forbidden');
+  // Preserve structured content when the editor does not expose its JSON field.
+  let data: Record<string, string> = existing?.data || {};
   try {
-    data = JSON.parse(String(form.get('data') || '{}'));
+    if(form.has('data')) data = JSON.parse(String(form.get('data') || '{}'));
+    if(!data||Array.isArray(data)||typeof data!=='object')throw new Error('Invalid fields');
+    for(const key of ['speaker','venue','location','day','start','end','timezone','album_slug']) if(form.has('field_'+key)) data[key]=String(form.get('field_'+key)||'').trim();
   } catch {
     redirect(`/admin/edit/${id}?error=validation`);
   }
@@ -126,7 +131,7 @@ export async function setRole(form: FormData) {
   const newRole = String(form.get('role'));
 
   if (id === user.id) throw new Error('Cannot change your own role');
-  if (!/^[0-9a-f-]{36}$/i.test(id) || !['media_editor', 'content_admin', 'super_admin', 'remove'].includes(newRole)) {
+  if (!/^[0-9a-f-]{36}$/i.test(id) || !['media_editor', 'content_admin', 'super_admin', 'marketing_admin', 'remove'].includes(newRole)) {
     throw new Error('Invalid role request');
   }
 
@@ -150,12 +155,16 @@ export async function upload(form: FormData) {
   const {db} = await requireAdmin('media_editor');
   const file = form.get('file');
   const id = String(form.get('id') || 'new');
-  const redirectTarget = form.get('redirect') ? String(form.get('redirect')) : `/admin/edit/${id}`;
+  const requested=String(form.get('redirect')||'');
+  const redirectTarget=requested==='/admin/media'?requested:`/admin/edit/${/^(new|[0-9a-f-]{36})$/.test(id)?id:'new'}`;
 
   if (!(file instanceof File) || file.size > 5242880 || !['image/jpeg', 'image/png', 'image/webp'].includes(file.type)) {
     redirect(`${redirectTarget}?error=upload`);
   }
 
+  const bytes=new Uint8Array(await file.arrayBuffer());
+  const signature=file.type==='image/jpeg'?bytes[0]===255&&bytes[1]===216&&bytes[2]===255:file.type==='image/png'?[137,80,78,71,13,10,26,10].every((v,i)=>bytes[i]===v):new TextDecoder().decode(bytes.slice(0,4))==='RIFF'&&new TextDecoder().decode(bytes.slice(8,12))==='WEBP';
+  if(!signature)redirect(`${redirectTarget}?error=upload`);
   const extension = {'image/jpeg': 'jpg', 'image/png': 'png', 'image/webp': 'webp'}[file.type]!;
   const path = `${crypto.randomUUID()}.${extension}`;
 

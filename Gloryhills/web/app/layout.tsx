@@ -6,7 +6,9 @@ import {churchName, settings, published} from '@/lib/content';
 import {origin, jsonLd} from '@/lib/seo';
 import './globals.css';
 import Analytics from '@/components/analytics';
+import {normalizeMarketing} from '@/lib/marketing';
 import ConsentBanner from '@/components/consent-banner';
+import PublicOnly from '@/components/public-only';
 
 const display = localFont({src: '../public/fonts/display.woff2', variable: '--display', display: 'swap'});
 const body = localFont({
@@ -50,29 +52,18 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function Layout({children}: {children: React.ReactNode}) {
   const s = await settings();
-  const gtmId = process.env.NEXT_PUBLIC_GTM_ID;
-  const isGtmValid = gtmId && /^GTM-[A-Z0-9]+$/.test(gtmId);
+  const marketing=normalizeMarketing((await published('settings')).find(row=>row.slug==='marketing')?.data||{});
 
   return (
     <html lang="en">
       <body className={`${display.variable} ${body.variable}`}>
-        {isGtmValid && (
-          <noscript>
-            <iframe
-              src={`https://www.googletagmanager.com/ns.html?id=${gtmId}`}
-              height="0"
-              width="0"
-              style={{display: 'none', visibility: 'hidden'}}
-            />
-          </noscript>
-        )}
         <a className="skip" href="#main">
           Skip to content
         </a>
-        <Navigation />
+        <PublicOnly><Navigation /></PublicOnly>
         {children}
-        <Analytics />
-        <ConsentBanner />
+        <Analytics config={marketing} />
+        <PublicOnly><ConsentBanner />
         <footer>
           <div className="footer-grid">
             <div>
@@ -106,7 +97,7 @@ export default async function Layout({children}: {children: React.ReactNode}) {
             <span>© {new Date().getFullYear()} {churchName}</span>
             <Link href="/cookies">Cookie preferences</Link>
           </div>
-        </footer>
+        </footer></PublicOnly>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

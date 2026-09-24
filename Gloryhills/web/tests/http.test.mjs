@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-const base='http://127.0.0.1:3000';
+const base=process.env.TEST_BASE_URL||'http://127.0.0.1:3000';
 test('production HTTP routes, server metadata, redirects, forms, icons and protected areas',async()=>{
  const titles=new Set();for(const route of ['/','/about-us','/leadership','/sermons','/events','/give','/visit-us','/contact','/prayer-request','/plan-your-visit','/cookies']){const r=await fetch(base+route);assert.equal(r.status,200,route);const html=await r.text();assert.equal((html.match(/<h1[ >]/g)||[]).length,1,route);assert.ok(html.includes('rel="canonical"'),route);const title=html.match(/<title>(.*?)<\/title>/)?.[1];assert.ok(title);titles.add(title);assert.ok(!html.includes('kenzi.lawson@example.com'));}assert.equal(titles.size,11);
  const visit=await(await fetch(base+'/visit-us')).text();assert.ok(visit.includes('Tejumola House'));assert.ok(visit.includes('Isheri Magodo'));assert.ok(visit.includes('8:00 AM'));const sermons=await(await fetch(base+'/sermons')).text();assert.ok(sermons.includes('4OYlLXQq8Heh6fAkixCdVA'));

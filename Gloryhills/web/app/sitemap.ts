@@ -31,5 +31,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       .forEach((x) => routes.push(`/${['sermons', 'events', 'gallery'][i]}/${x.slug}`))
   );
 
-  return routes.map((x) => ({url: origin() + x}));
+  return [...new Set(routes)].filter(path=>!editorial.some(row=>'/'+row.slug===path&&row.data?.noindex==='true')).map((x) => ({url: origin() + x}));
 }

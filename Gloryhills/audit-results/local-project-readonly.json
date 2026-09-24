@@ -1,0 +1,18 @@
+[
+  {
+    "endpoint": "/auth/v1/settings",
+    "status": 200,
+    "public_signup_disabled": false
+  },
+  {
+    "endpoint": "/rest/v1/content",
+    "status": 200,
+    "marketing_record_present": true,
+    "gtm_id": null,
+    "gtm_enabled": false
+  },
+  {
+    "endpoint": "/rest/v1/content",
+    "status": 200
+  }
+]
