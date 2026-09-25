@@ -31,3 +31,5 @@ public/admin
 .env
 .env.*
 !.env.example
+.temp
+*.tsbuildinfo
