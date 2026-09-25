@@ -171,9 +171,14 @@ export default async function Edit({
           )}
 
           <label>
-            Image Alternative Text (Required when image is attached)
+            Image Alternative Text (Required when image is attached to published content)
             <input name="image_alt" defaultValue={row?.image_alt || ''} placeholder="Describe the image content for accessibility" />
-            <small style={{color: '#666'}}>Required for WCAG AA compliance.</small>
+            <small style={{color: '#666'}}>Required for WCAG AA compliance. Filenames (e.g. photo.jpg) are rejected.</small>
+          </label>
+
+          <label className="check" style={{marginTop: 8}}>
+            <input type="checkbox" name="field_is_decorative" value="true" defaultChecked={currentData.is_decorative === 'true'} />
+            <span>Mark image as purely decorative (intentional empty alt text for screen readers)</span>
           </label>
 
           <label>

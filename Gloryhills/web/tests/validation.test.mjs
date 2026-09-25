@@ -23,6 +23,13 @@ test('content validation rejects unsafe URLs, missing image alt and incomplete p
   assert.equal(contentInput.safeParse(content).success, true);
   assert.equal(contentInput.safeParse({...content, external_url: 'javascript:alert(1)'}).success, false);
   assert.equal(contentInput.safeParse({...content, image_url: 'photo.jpg'}).success, false);
+  // Alt text cannot just be a filename
+  assert.equal(contentInput.safeParse({...content, image_url: 'photo.jpg', image_alt: 'photo.jpg'}).success, false);
+  assert.equal(contentInput.safeParse({...content, image_url: 'photo.jpg', image_alt: 'banner.png'}).success, false);
+  // Meaningful descriptive alt text is accepted
+  assert.equal(contentInput.safeParse({...content, image_url: 'photo.jpg', image_alt: 'Church congregation during worship'}).success, true);
+  // Explicitly marked decorative image is accepted even with empty alt
+  assert.equal(contentInput.safeParse({...content, image_url: 'photo.jpg', image_alt: '', data: {is_decorative: 'true'}}).success, true);
   assert.equal(contentInput.safeParse({...content, kind: 'giving_methods', status: 'published'}).success, false);
   assert.equal(
     contentInput.safeParse({

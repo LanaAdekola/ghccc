@@ -13,7 +13,7 @@ Sign in at `/admin/login`. Unauthorized users cannot access dashboard, edit, pre
 
 Choose a content type, create a draft, supply slug/title/description/body, save, preview, then change status to published. Change back to draft to unpublish. Display order controls sorting. Events use UTC in the editor and display in Africa/Lagos. Enter headquarters 18:00 as 17:00 UTC.
 
-Image upload accepts JPEG/PNG/WebP ≤5 MB. Save text before uploading. The uploaded path fills the image field; add meaningful alt text and save again. Images are private until attached to published content. An unpublished record's image is no longer available to anonymous requests.
+Image upload accepts JPEG/PNG/WebP ≤5 MB. Save text before uploading. The uploaded path fills the image field; add meaningful alt text and save again. Images must have descriptive alt text (filenames are rejected); mark as decorative only if intentionally decorative. Images are private until attached to published content. An unpublished record's image is no longer available to anonymous requests.
 
 Additional structured fields use labelled forms per content type, not JSON. Giving methods ask for bank, account name, account number, currency and SWIFT. Settings ask for the two location names, address, phone, public email, Spotify show and map link. Service times ask for location, day, 24-hour start and end times and timezone. Gallery images ask for the album. Announcements, leadership, giving campaigns and homepage ordering have their own fields. Required fields are enforced when you publish: giving methods need bank, account name, account number and currency; service times need location, day, start, end and timezone; gallery images need an album. Public email must be a valid address, links must start with https://, times use HH:MM and a service must end after it starts. Any older saved values that do not match the current fields stay editable under “Other saved fields”. Never put credentials into content.
 
@@ -25,7 +25,7 @@ Private submissions appear only to administrators. Delete after responding accor
 
 The login page links to `/admin/forgot-password`. In Supabase Authentication →
 URL Configuration, allow `http://localhost:3000/auth/callback` and the production
-`https://YOUR-DOMAIN/auth/callback`. Set `NEXT_PUBLIC_SITE_URL` to the current
+`https://www.ghccglobal.com/auth/callback`. Set `NEXT_PUBLIC_SITE_URL` to the current
 site origin. Keep the reset email template's standard `{{ .ConfirmationURL }}`
 link. Request the reset from this website and open the email in the same browser
 so the PKCE verifier cookie is available. The callback establishes a session,

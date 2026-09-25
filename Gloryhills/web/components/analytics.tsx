@@ -3,44 +3,25 @@
 import {useEffect} from 'react';
 import {usePathname} from 'next/navigation';
 import {type Marketing} from '@/lib/marketing';
-import {installMarketing} from '@/lib/marketing-runtime';
+import {installMarketing, uninstallMarketing} from '@/lib/marketing-runtime';
+import {sanitizeEventPayload, ALLOWED_EVENT_NAMES} from '@/lib/events.mjs';
 
 declare global {
   interface Window {
     dataLayer?: unknown[];
     gtag?: (...args: unknown[]) => void;
-    ghccLastPage?:string;
+    ghccLastPage?: string;
   }
 }
-
-// Prohibited keys and patterns that might contain PII or sensitive info
-const FORBIDDEN_KEYS = new Set([
-  'name',
-  'fullname',
-  'first_name',
-  'last_name',
-  'email',
-  'phone',
-  'telephone',
-  'prayer',
-  'prayer_request',
-  'message',
-  'account',
-  'account_number',
-  'account_name',
-  'bank',
-  'card',
-  'pin',
-  'cvv',
-  'password',
-  'token',
-]);
 
 export function gtag(...args: unknown[]) {
   if (typeof window === 'undefined') return;
   window.dataLayer = window.dataLayer || [];
   // Google expects the arguments object used by its standard gtag queue.
-  (function(..._values:unknown[]){void _values;window.dataLayer!.push(arguments);})(...args);
+  (function (..._values: unknown[]) {
+    void _values;
+    window.dataLayer!.push(arguments);
+  })(...args);
 }
 
 export function updateConsentState(granted: boolean) {
@@ -61,10 +42,12 @@ export function updateConsentState(granted: boolean) {
 export function isTrackingAllowed(): boolean {
   if (typeof window === 'undefined') return false;
 
-  // Exclude admin dashboard
-  if (/^\/(admin|auth)(\/|$)/.test(window.location.pathname) || window.location.pathname==='/prayer-request') return false;
+  // Exclude admin dashboard, authentication, and prayer request routes
+  if (/^\/(admin|auth)(\/|$)/.test(window.location.pathname) || window.location.pathname === '/prayer-request') {
+    return false;
+  }
 
-  // Check consent
+  // Check consent - strictly disallow before explicit consent
   const consent = localStorage.getItem('ghcc-consent');
   if (consent !== 'granted') return false;
 
@@ -82,40 +65,22 @@ export function isTrackingAllowed(): boolean {
 
 export function track(event: string, payload?: Record<string, unknown>) {
   if (!isTrackingAllowed()) return;
+  if (!ALLOWED_EVENT_NAMES.has(event)) return;
 
-  const allowed=['page_view','event_view','listen_click','give_click','bank_details_copied','plan_visit_click','phone_click','email_click','whatsapp_click','directions_click','event_registration_click','online_giving_started','giving_method_selected','sermon_play_requested','contact_form_submitted','newsletter_signup','event_interest_submitted','visit_request_submitted','google_ads_conversion'];
-  if(!allowed.includes(event))return;
-  const sanitized: Record<string, unknown> = {event};
-
-  if (payload && typeof payload === 'object') {
-    for (const [key, val] of Object.entries(payload)) {
-      const lowerKey = key.toLowerCase();
-      if (FORBIDDEN_KEYS.has(lowerKey)) continue;
-
-      // Only approved route parameters; never accept arbitrary payload values.
-      if (['route','page_path'].includes(key) && typeof val === 'string' && /^\/[a-z0-9/_-]*$/.test(val)) {
-        sanitized[key] = val;
-      }
-    }
-  }
+  const sanitized = sanitizeEventPayload(event, payload);
+  if (!sanitized) return;
 
   window.dataLayer = window.dataLayer || [];
   window.dataLayer.push(sanitized);
-
-
 }
 
-export default function Analytics({config}:{config:Marketing}) {
+export default function Analytics({config}: {config: Marketing}) {
   const pathname = usePathname();
 
   useEffect(() => {
-    // If inside admin, ensure GTM is inactive
-    if (/^\/(admin|auth)(\/|$)/.test(pathname) || pathname==='/prayer-request') {
-      const existing = document.querySelector('[id^=ghcc-gtm], #ghcc-google, #ghcc-meta, #ghcc-adsense');
-      if (existing) {
-        existing.remove();
-        window.location.reload();
-      }
+    // If inside admin, auth, or prayer-request, ensure GTM is inactive
+    if (/^\/(admin|auth)(\/|$)/.test(pathname) || pathname === '/prayer-request') {
+      uninstallMarketing();
       return;
     }
 
@@ -131,24 +96,35 @@ export default function Analytics({config}:{config:Marketing}) {
       wait_for_update: 500,
     });
 
-    function start() {
+    function sync() {
       if (!isTrackingAllowed()) {
-        if (document.querySelector('#ghcc-gtm, #ghcc-google, #ghcc-meta, #ghcc-adsense')) {document.querySelectorAll('#ghcc-gtm, #ghcc-google, #ghcc-meta, #ghcc-adsense').forEach(el=>el.remove());window.location.reload();}
+        uninstallMarketing();
         return;
       }
       installMarketing(config);
-      if(window.ghccLastPage!==pathname){
-        window.ghccLastPage=pathname;
-        track('page_view',{page_path:pathname});
-        if(pathname.startsWith('/events/'))track('event_view',{route:pathname});
+      if (window.ghccLastPage !== pathname) {
+        window.ghccLastPage = pathname;
+        track('page_view', {page_path: pathname});
+        if (pathname.startsWith('/events/')) track('event_view', {route: pathname});
       }
     }
 
-    start();
-    window.addEventListener('ghcc-consent', start);
+    function handleStorage(e: StorageEvent) {
+      if (e.key === 'ghcc-consent') {
+        const isGranted = e.newValue === 'granted';
+        gtag('consent', 'update', {
+          analytics_storage: isGranted ? 'granted' : 'denied',
+          ad_storage: isGranted ? 'granted' : 'denied',
+          ad_user_data: isGranted ? 'granted' : 'denied',
+          ad_personalization: isGranted ? 'granted' : 'denied',
+        });
+        sync();
+      }
+    }
 
-    // Track page views or route specific views
-
+    sync();
+    window.addEventListener('ghcc-consent', sync);
+    window.addEventListener('storage', handleStorage);
 
     function handleClick(e: MouseEvent) {
       const target = e.target as Element | null;
@@ -206,19 +182,19 @@ export default function Analytics({config}:{config:Marketing}) {
           return;
         }
 
-        // 7. give_click
-        if (lowerHref === '/give' || lowerHref.startsWith('/give?') || lowerHref.startsWith('/give#')) {
-          track('give_click');
-          return;
-        }
-
-        // 8. online_giving_started
+        // 7. online_giving_started (checked BEFORE general give_click to resolve precedence)
         if (
           a.getAttribute('data-action') === 'online-giving-start' ||
           lowerHref.includes('paystack') ||
           lowerHref.includes('flutterwave')
         ) {
           track('online_giving_started');
+          return;
+        }
+
+        // 8. give_click (general navigation to /give)
+        if (lowerHref === '/give' || lowerHref.startsWith('/give?') || lowerHref.startsWith('/give#')) {
+          track('give_click');
           return;
         }
 
@@ -246,7 +222,8 @@ export default function Analytics({config}:{config:Marketing}) {
     document.addEventListener('click', handleClick);
 
     return () => {
-      window.removeEventListener('ghcc-consent', start);
+      window.removeEventListener('ghcc-consent', sync);
+      window.removeEventListener('storage', handleStorage);
       document.removeEventListener('click', handleClick);
     };
   }, [pathname, config]);
@@ -254,10 +231,12 @@ export default function Analytics({config}:{config:Marketing}) {
   return null;
 }
 
-// Call only after an actual confirmed conversion; never infer a payment from a click.
-export function trackGoogleAdsConversion(){
- if(!isTrackingAllowed())return;
- const c=window.ghccMarketing;
- if(c?.gtm_enabled==='true'){track('google_ads_conversion');return;}
-
+/**
+ * Helper function reserved for verified external conversion callbacks.
+ * Currently UNCALLED in standard application UI flows.
+ * Never infer payment completion or event attendance from a click or page navigation.
+ */
+export function trackGoogleAdsConversion() {
+  if (!isTrackingAllowed()) return;
+  track('google_ads_conversion');
 }

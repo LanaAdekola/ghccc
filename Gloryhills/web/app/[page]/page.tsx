@@ -572,7 +572,7 @@ async function Services() {
   ) : (
     <div className="service-cards-grid">
       <article className="service-image-card">
-        <img className="service-card-img" src="/images/services/sunday.jpg" alt="Sunday Worship Service at Glory Hills" />
+        <Image className="service-card-img" src="/images/services/sunday.jpg" alt="Sunday Worship Service at Glory Hills" width={600} height={400} />
         <div className="service-card-body">
           <h3>Sunday Worship Service</h3>
           <p className="service-time">8:00 AM – 1:00 PM (WAT)</p>
@@ -580,7 +580,7 @@ async function Services() {
         </div>
       </article>
       <article className="service-image-card">
-        <img className="service-card-img" src="/images/services/wednesday.jpg" alt="Wednesday Prayer Meeting at Glory Hills" />
+        <Image className="service-card-img" src="/images/services/wednesday.jpg" alt="Wednesday Prayer Meeting at Glory Hills" width={600} height={400} />
         <div className="service-card-body">
           <h3>Wednesday Prayer Meeting</h3>
           <p className="service-time">6:00 PM – 8:30 PM (WAT)</p>
@@ -588,7 +588,7 @@ async function Services() {
         </div>
       </article>
       <article className="service-image-card">
-        <img className="service-card-img" src="/images/services/friday.jpg" alt="Friday Disciple's Hub at Glory Hills" />
+        <Image className="service-card-img" src="/images/services/friday.jpg" alt="Friday Disciple's Hub at Glory Hills" width={600} height={400} />
         <div className="service-card-body">
           <h3>Friday Disciple&apos;s Hub</h3>
           <p className="service-time">6:00 PM – 8:00 PM (WAT)</p>

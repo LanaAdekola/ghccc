@@ -28,7 +28,7 @@ export async function save(form: FormData) {
   try {
     if(form.has('data')) data = JSON.parse(String(form.get('data') || '{}'));
     if(!data||Array.isArray(data)||typeof data!=='object')throw new Error('Invalid fields');
-    for(const key of ['speaker','venue','location','day','start','end','timezone','album_slug']) if(form.has('field_'+key)) data[key]=String(form.get('field_'+key)||'').trim();
+    for(const key of ['speaker','venue','location','day','start','end','timezone','album_slug','is_decorative']) if(form.has('field_'+key)) data[key]=String(form.get('field_'+key)||'').trim();
   } catch {
     redirect(`/admin/edit/${id}?error=validation`);
   }
@@ -168,7 +168,15 @@ export async function upload(form: FormData) {
   const extension = {'image/jpeg': 'jpg', 'image/png': 'png', 'image/webp': 'webp'}[file.type]!;
   const path = `${crypto.randomUUID()}.${extension}`;
 
-  const {error} = await db.storage.from('church-media').upload(path, file, {contentType: file.type, upsert: false});
+  const rawAlt = String(form.get('alt') || form.get('image_alt') || '').trim();
+  const safeAlt = /^[a-zA-Z0-9_-]+\.(jpg|jpeg|png|webp|gif|svg)$/i.test(rawAlt) ? '' : rawAlt;
+  const metadata = safeAlt ? {alt: safeAlt} : undefined;
+
+  const {error} = await db.storage.from('church-media').upload(path, file, {
+    contentType: file.type,
+    upsert: false,
+    ...(metadata ? {metadata} : {}),
+  });
   if (error) redirect(`${redirectTarget}?error=upload`);
 
   redirect(`${redirectTarget}?uploaded=${encodeURIComponent(path)}`);

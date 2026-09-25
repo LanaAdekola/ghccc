@@ -9,7 +9,7 @@ Choose Create content, select a content type, and use a short lowercase hyphenat
 - Sunday photographs: create a gallery album first; create gallery images using that album slug.
 - Announcement/homepage: edit the relevant record and preview. Some public sections still contain fixed fallback content; check the actual page after publishing.
 
-Save as Draft before uploading. Upload JPEG, PNG or WebP up to 5 MB; save again to attach the returned filename. Add useful alternative text. Media Library previews are available to content roles. Upload does not require a service-role key; it uses your authenticated storage permissions.
+Save as Draft before uploading. Upload JPEG, PNG or WebP up to 5 MB; save again to attach the returned filename. Add meaningful descriptive alternative text (filenames like photo.jpg are rejected). Mark as decorative only if the image is purely decorative. Media Library previews are available to content roles. Upload does not require a service-role key; it uses your authenticated storage permissions.
 
 From the dashboard, Preview the saved record. This preview is not guaranteed to reproduce every public layout. Choose Published and save, then check the real public listing and detail page. Choose Draft to unpublish, or Archive. Content admins can restore archived records. Never delete real records during training. Use a clearly named temporary test item and archive it afterwards.
 

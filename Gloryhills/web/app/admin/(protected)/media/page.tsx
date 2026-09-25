@@ -63,6 +63,10 @@ export default async function MediaLibrary({
             Select File from Device
             <input type="file" name="file" accept="image/jpeg,image/png,image/webp" required />
           </label>
+          <label style={{flex: 1, minWidth: '240px', margin: 0}}>
+            Descriptive Alt Text (For accessibility)
+            <input name="alt" placeholder="Describe the image content (avoid filenames)" maxLength={300} />
+          </label>
           <button className="button" type="submit">
             Upload Image
           </button>
@@ -111,7 +115,7 @@ export default async function MediaLibrary({
                   >
                     <Image
                       src={mediaUrl}
-                      alt={f.name}
+                      alt={f.metadata?.alt || ''}
                       width={300}
                       height={200}
                       unoptimized

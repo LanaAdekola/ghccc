@@ -59,7 +59,21 @@ export const contentInput = z
     data: z.record(z.string().max(80), z.string().max(2000)),
   })
   .refine((x) => x.status !== 'published' || (requiredWhenPublished[x.kind] || []).every(key => Boolean(x.data[key]?.trim())), {message:'Complete the required content-specific fields before publishing'})
-  .refine((x) => !x.image_url || x.image_alt.length > 0, {message: 'Images need descriptive alt text'})
+  .refine(
+    (x) => {
+      if (!x.image_url) return true;
+      // If decorative is explicitly marked, empty or decorative alt text is allowed
+      if (x.data?.is_decorative === 'true') return true;
+      const alt = (x.image_alt || '').trim();
+      if (!alt) return false;
+      // Reject if alt text is merely a filename
+      if (/^[a-zA-Z0-9_-]+\.(jpg|jpeg|png|webp|gif|svg)$/i.test(alt)) return false;
+      const filename = x.image_url.split('/').pop() || '';
+      if (alt.toLowerCase() === filename.toLowerCase()) return false;
+      return alt.length >= 3;
+    },
+    {message: 'Images require meaningful descriptive alt text. Filenames are rejected. Check "decorative" only if the image is purely decorative.'}
+  )
   .refine(
     (x) =>
       x.kind !== 'giving_methods' ||

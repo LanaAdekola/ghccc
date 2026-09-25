@@ -8,104 +8,70 @@ This guide describes how Google Tag Manager (GTM), Google Analytics 4 (GA4), Goo
 
 > [!IMPORTANT]
 > **Single Source of Truth**:
-> Google Tag Manager is the sole tag-management and script-loading layer. Google Analytics 4, Google Ads, and Meta Pixel scripts are **never** injected directly into the application source code.
+> Google Tag Manager is the sole tag-management and script-loading layer on the website. Google Analytics 4, Google Ads, and Meta Pixel scripts are **never** injected directly into the application source code.
 > 
-> This eliminates duplicate scripts, prevents tracking conflicts, enforces consent rules across all vendors simultaneously, and allows the media team to manage marketing tags directly in GTM without developer redeployments.
+> * The active GTM container ID and enable/disable state are managed directly in the CMS at `/admin/marketing` and stored in the published Supabase `settings` content record.
+> * The website runtime does **not** load GTM from environment variables (`NEXT_PUBLIC_GTM_ID` is deprecated and not used by the runtime).
+> * GA4, Google Ads, Meta Pixel, and AdSense IDs stored in `/admin/marketing` are reference values for configuring tags inside the GTM container. Entering those IDs does not directly load vendor scripts.
+> * No noscript iframe is injected or supported (Next.js renders asynchronously in client components).
 
 ---
 
-## 2. Environment Variables Required
+## 2. Google Tag Manager Container Setup
 
-Configure the following variables in the deployment environment (e.g., Vercel / Netlify project settings):
-
-```bash
-# Google Tag Manager Container ID (Required for analytics)
-NEXT_PUBLIC_GTM_ID=GTM-XXXXXXX
-
-# Google Analytics 4 Measurement ID (Configured inside GTM container)
-NEXT_PUBLIC_GA_MEASUREMENT_ID=G-XXXXXXXXXX
-
-# Google Ads Customer / Conversion ID (Configured inside GTM container)
-NEXT_PUBLIC_GOOGLE_ADS_ID=AW-XXXXXXXXX
-
-# Meta (Facebook) Pixel ID (Configured inside GTM container)
-NEXT_PUBLIC_META_PIXEL_ID=123456789012345
-
-# Google Search Console Verification Token
-GOOGLE_SEARCH_CONSOLE_VERIFICATION=your_gsc_token_here
-
-# Public Production URL (Canonical root without trailing slash)
-NEXT_PUBLIC_SITE_URL=https://gloryhillscommunitychurch.org
-```
-
-> [!NOTE]
-> Do not commit `.env` or `.env.local` files containing secrets or credentials to source control.
+1. Create a Web Container in [Google Tag Manager](https://tagmanager.google.com/) for Glory Hills Community Church.
+2. In the church CMS (`/admin/marketing`), enter your GTM Container ID (`GTM-XXXXXXX`) and toggle **Enable Google Tag Manager**.
+3. Save changes. GTM will load on public pages once user consent is granted.
 
 ---
 
-## 3. Google Tag Manager Setup
+## 3. Google Consent Mode v2 & Privacy Constraints
 
-### Step A: Create GTM Web Container
-1. Log in to [Google Tag Manager](https://tagmanager.google.com/).
-2. Create an Account for **Glory Hills Community Church** and a Container with Target Platform: **Web**.
-3. Copy your Container ID (`GTM-XXXXXXX`) and save it as `NEXT_PUBLIC_GTM_ID` in your hosting environment.
-
-### Step B: Configure Consent Mode
-1. In GTM, go to **Admin** -> **Container Settings** -> check **Enable consent overview**.
-2. Optional marketing and analytics tags should depend on `analytics_storage: 'granted'` and `ad_storage: 'granted'`.
-3. The website's consent banner and `/cookies` page automatically update `localStorage['ghcc-consent']` and trigger tag initialization only after explicit consent.
+* **Consent Required**: All marketing and analytics tags require visitor consent. Tags load only after the visitor accepts optional services via the cookie banner.
+* **Excluded Routes**: Admin dashboard (`/admin`), authentication routes (`/auth`), and prayer requests (`/prayer-request`) are strictly excluded from tracking.
+* **Confidentiality Rule**: **Prayer requests are confidential pastoral communications and must NEVER be tracked.**
+* **Localhost / Development**: Tracking is suppressed on localhost and non-production environments unless debug mode is explicitly toggled (`?gtm_debug=1` or `localStorage['ghcc-analytics-debug'] = 'true'`).
 
 ---
 
-## 4. Connecting Google Analytics 4 (GA4)
+## 4. Connecting Google Analytics 4 (GA4) Inside GTM
 
-1. In GTM, navigate to **Tags** -> **New**.
-2. Select **Google Tag** (or **Google Analytics: GA4 Configuration**).
-3. In **Tag ID**, enter `{{NEXT_PUBLIC_GA_MEASUREMENT_ID}}` (or your static `G-XXXXXXXXXX` ID).
-4. Under **Triggering**, select **Custom Event: ghcc-consent** or **Consent Initialization - All Pages**.
-5. Create GA4 Event Tags for key actions corresponding to the events documented in [TRACKING_EVENT_DICTIONARY.md](TRACKING_EVENT_DICTIONARY.md):
-   - `sermon_play`
-   - `give_click`
-   - `online_giving_completed`
-   - `event_registration_click`
-   - `plan_visit_click`
-   - `bank_details_copied`
-   - `contact_form_submitted`
-   - `prayer_request_submitted`
-   - `newsletter_signup`
+1. In GTM, create a new **Google Tag** (GA4 Configuration).
+2. Enter your GA4 Measurement ID (`G-XXXXXXXXXX`).
+3. Set Trigger to **Custom Event: ghcc-consent** or **Consent Initialization - All Pages** (requiring `analytics_storage: 'granted'`).
+4. Turn **OFF** automatic page views and Enhanced Measurement browser history changes in GA4 stream settings.
+5. Create a GA4 Event tag for `page_view` triggered on the dataLayer event `page_view`.
+6. Refer to [TRACKING_EVENT_DICTIONARY.md](TRACKING_EVENT_DICTIONARY.md) for the complete list of 18 client-side engagement and intent events.
 
 ---
 
-## 5. Connecting Google Ads Conversions
+## 5. Connecting Google Ads Conversions Inside GTM
 
-1. In Google Ads, navigate to **Goals** -> **Conversions** -> **Summary**.
-2. Create Conversion Actions:
-   - **Give Intent**: Primary conversion on `online_giving_completed` or secondary on `give_click`.
-   - **Event Registration**: Conversion on `event_registration_click`.
-   - **Plan a Visit**: Lead conversion on `plan_visit_click`.
-   - **Contact / Prayer**: Conversion on `contact_form_submitted` or `prayer_request_submitted`.
-3. In GTM, add a **Conversion Linker** tag set to fire on **All Pages**.
-4. Add **Google Ads Conversion Tracking** tags using your Conversion ID (`AW-XXXXXXXXX`) and Conversion Label for each event.
-
----
-
-## 6. Connecting Meta (Facebook) Pixel
-
-1. In Meta Events Manager, copy your Pixel ID (`NEXT_PUBLIC_META_PIXEL_ID`).
-2. In GTM, install the **Facebook Pixel** community template (by Facebook Incubator) or use a Custom HTML tag with consent checks.
-3. Configure standard Meta events:
-   - Base Code: `fbq('init', '{{NEXT_PUBLIC_META_PIXEL_ID}}'); fbq('track', 'PageView');`
-   - Giving started: `fbq('track', 'InitiateCheckout');`
-   - Giving completed: `fbq('track', 'Donate');`
-   - Event Registration: `fbq('track', 'CompleteRegistration');`
-   - Plan Visit / Contact: `fbq('track', 'Lead');`
+1. In Google Ads, establish approved conversion actions with the church leadership.
+2. In GTM, add a **Conversion Linker** tag set to fire on **All Pages**.
+3. Create Google Ads Conversion Tracking tags using your Conversion ID (`AW-XXXXXXXXX`) and Conversion Labels for key intent events:
+   * **Online Giving Intent**: Map to `online_giving_started` (checkout intent). **Do NOT map button clicks to completed donations.**
+   * **Event Registration**: Map to `event_registration_click` or `event_interest_submitted`.
+   * **Plan a Visit**: Map to `visit_request_submitted` (lead conversion) or `plan_visit_click`.
+   * **Contact**: Map to `contact_form_submitted`.
+4. Never configure prayer requests as an advertising conversion.
 
 ---
 
-## 7. Tracking Exclusion Rules
+## 6. Connecting Meta (Facebook) Pixel Inside GTM
 
-Tracking is blocked in the following contexts:
-1. **Admin Dashboard**: Any route beginning with `/admin` automatically unloads and disables GTM scripts to keep administrative sessions completely isolated from analytics.
-2. **Local Development**: Hostnames `localhost`, `127.0.0.1`, and `::1` are blocked from firing tags unless testing mode (`?gtm_debug=true`) is explicitly requested.
-3. **Without Consent**: Until the visitor clicks "Accept Analytics" on the banner or enables analytics in `/cookies`, zero tracking scripts are injected.
+1. In GTM, add the Facebook Pixel tag (via community template or Custom HTML with consent checks).
+2. Set base code to fire on consented page views: `fbq('init', '{{Pixel_ID}}'); fbq('track', 'PageView');`.
+3. Map standard Meta events to consented dataLayer events:
+   * `online_giving_started` → `fbq('track', 'InitiateCheckout');`
+   * `event_registration_click` → `fbq('track', 'CompleteRegistration');`
+   * `contact_form_submitted` → `fbq('track', 'Lead');`
 
+---
+
+## 7. Church Locations & Official Channels
+
+* **Headquarters**: 3rd Floor of Tejumola House, Plot 24 Ogunnusi Road (beside CLAM) in Ojodu Berger, Lagos.
+* **Isheri-Magodo**: 6 Ogun River Road, Isheri-Magodo, Lagos.
+* **Official Website**: `https://www.ghccglobal.com`
+* **Spotify Show**: `https://open.spotify.com/show/4OYlLXQq8Heh6fAkixCdVA`

@@ -1,142 +1,61 @@
-# Search Engine Optimization (SEO) Setup Guide
+# SEO Setup & Architecture Guide
 
-This document outlines the complete SEO architecture, metadata generation, and structured data implementation for Glory Hills Community Church.
-
----
-
-## 1. Canonical URLs
-
-- **Specification**: Every public page includes a self-referencing `<link rel="canonical" href="..." />` tag in the `<head>` to prevent duplicate content penalties between HTTP/HTTPS, `www`/non-`www`, and query parameters.
-- **Implementation**: Defined via Next.js metadata in `web/lib/seo.ts`:
-  ```typescript
-  export function meta(title: string, description: string, path: string): Metadata {
-    return {
-      title,
-      description,
-      alternates: { canonical: path },
-      ...
-    };
-  }
-  ```
-- **Base Domain**: Set dynamically from `NEXT_PUBLIC_SITE_URL` (defaults to `https://gloryhillscommunitychurch.org`).
+This document describes the search engine optimization (SEO) architecture, metadata rules, sitemap generation, and structured data standards for Glory Hills Community Church.
 
 ---
 
-## 2. Unique Page Titles & Meta Descriptions
+## 1. Canonical URLs & Production Origin Rules
 
-Every route features an intentional, keyword-rich title and meta description:
-
-| Route | Page Title | Purpose / Snippet Preview |
-|---|---|---|
-| `/` | `Welcome home \| Glory Hills Community Church` | Core home page and community identity |
-| `/about-us` | `Our story. His purpose. \| Glory Hills Community Church` | Church vision, mission, and foundational scripture |
-| `/leadership` | `Meet our pastors \| Glory Hills Community Church` | Senior Pastor Tobi Omojowo and pastoral team profiles |
-| `/sermons` | `A word for your walk. \| Glory Hills Community Church` | Sermon library, YouTube embeds, and Spotify podcast |
-| `/events` | `Life together. \| Glory Hills Community Church` | Gatherings, conferences (BEGAT, Acts 13:2, Youth), and outreach |
-| `/give` | `A generous heart. \| Glory Hills Community Church` | Tithes, offerings, missions support, and verified bank details |
-| `/visit-us` | `There is a place for you. \| Glory Hills Community Church` | Ojodu Berger HQ and Isheri Magodo locations, service times |
-| `/contact` | `Let’s connect. \| Glory Hills Community Church` | Direct inquiries, church office contacts, and newsletter signup |
-| `/prayer-request` | `You do not walk alone. \| Glory Hills Community Church` | Confidential pastoral prayer intercession |
-| `/plan-your-visit` | `Your first Sunday starts here. \| Glory Hills Community Church` | First-time visitor welcome and orientation |
-| `/cookies` | `Cookie preferences \| Glory Hills Community Church` | Visitor analytics consent management |
-
-For dynamic content, editors can customize the title and description in `/admin` via the `seo_title` and `seo_description` fields.
+* **Canonical Domain**: `https://www.ghccglobal.com`
+* **Production Origin Protection**: In production (`NODE_ENV === 'production'`), metadata generation and sitemap generation safely resolve to `https://www.ghccglobal.com`. The application will **never** silently fall back to `http://localhost:3000` in production.
+* **Development**: Local development environments safely default to `http://localhost:3000`.
 
 ---
 
-## 3. Social Sharing & Open Graph Metadata
+## 2. Dynamic XML Sitemap (`/sitemap.xml`)
 
-When pages or sermons are shared on WhatsApp, Facebook, iMessage, LinkedIn, or Twitter, rich previews are automatically rendered:
-- **`og:title`** and **`twitter:title`**: Page or sermon title.
-- **`og:description`** and **`twitter:description`**: Curated excerpt or custom SEO description.
-- **`og:type`**: `website`.
-- **`og:image`** and **`twitter:image`**: High-resolution image (`1200 × 630 px`) located at `/images/brand/default-social-share.jpg` or individual sermon thumbnail.
-- **`twitter:card`**: `summary_large_image`.
+* Generated dynamically at `/sitemap.xml`.
+* **Fixed Public Routes**:
+  * `/` (Home)
+  * `/about-us`
+  * `/leadership`
+  * `/meet-our-pastor`
+  * `/sermons`
+  * `/events`
+  * `/give`
+  * `/visit-us`
+  * `/contact`
+  * `/prayer-request`
+  * `/plan-your-visit`
+  * `/cookies`
+* **Dynamic Database Records**: Automatically includes published pages, sermons, events, and gallery albums.
+* **Strict Publication Filtering**:
+  * `draft` and `archived` records are excluded.
+  * Records with `published_at` in the future are excluded.
+  * Content with `noindex = true` is excluded.
+  * Admin, authentication, and password reset routes are strictly excluded.
 
 ---
 
-## 4. Favicon and Search Result Icons
+## 3. Crawler Directives (`/robots.txt`)
 
-Located in `web/public/` and declared in `web/app/layout.tsx`:
-- `favicon.ico` (Multi-resolution 16/32/48px standard icon)
-- `favicon-16x16.png` & `favicon-32x32.png` & `favicon-48x48.png`
-- `apple-touch-icon.png` (180 × 180 px iOS home-screen icon)
-- `icon-192.png` & `icon-512.png` (Progressive web manifest icons)
-- `site.webmanifest` (Web app manifest providing search engines and mobile devices with application metadata)
+* **Public Crawlers**: Allowed on all public pages (`Allow: /`).
+* **Protected Paths**: Disallows crawler access to `/admin` and `/api`.
+* **Sitemap Reference**: References `https://www.ghccglobal.com/sitemap.xml`.
+* **Noindex Pages**: Administrative and auth routes explicitly emit `robots: {index: false, follow: true}`.
 
 ---
 
-## 5. Schema.org Structured Data (JSON-LD)
+## 4. Structured Data (Schema.org)
 
-Structured data is injected in valid JSON-LD format with HTML escaping to prevent XSS.
+* **Church Organization**: Emitted on root layout with Church name, logo, official social channels, and headquarters address.
+* **Events**: Emitted on event details pages (`/events/[slug]`) with title, description, start date, Africa/Lagos timezone, and venue.
+* **Sermon VideoObject**: Emitted on sermon details pages (`/sermons/[slug]`) **only when the sermon external URL is a recognized video destination** (valid YouTube URL). Arbitrary HTTPS links (e.g. audio links, Spotify podcasts, notes) do not emit VideoObject markup.
 
-### A. Church / Organization Schema (`web/app/layout.tsx`)
-Injected on every page for church knowledge graph ranking:
-```json
-{
-  "@context": "https://schema.org",
-  "@type": "Church",
-  "name": "Glory Hills Community Church",
-  "url": "https://gloryhillscommunitychurch.org",
-  "logo": "https://gloryhillscommunitychurch.org/images/brand/logo.png",
-  "address": {
-    "@type": "PostalAddress",
-    "streetAddress": "3rd Floor, Tejumola House, Plot 24 Ogunnusi Road (beside CLAM)",
-    "addressLocality": "Ojodu Berger",
-    "addressRegion": "Lagos",
-    "addressCountry": "NG"
-  },
-  "department": {
-    "@type": "Church",
-    "name": "Glory Hills Isheri Magodo",
-    "address": {
-      "@type": "PostalAddress",
-      "streetAddress": "4 Ogun River Road",
-      "addressLocality": "Isheri Magodo",
-      "addressRegion": "Lagos",
-      "addressCountry": "NG"
-    }
-  },
-  "sameAs": [
-    "https://www.youtube.com/@gloryhillscommunitychurch",
-    "https://www.instagram.com/gloryhillchurch/",
-    "https://www.youtube.com/@tobiomojowo",
-    "https://www.instagram.com/tobiomojowo/",
-    "https://www.facebook.com/Philip4christinme",
-    "https://www.tiktok.com/@tobiomojowo"
-  ],
-  "openingHoursSpecification": [
-    {
-      "@type": "OpeningHoursSpecification",
-      "dayOfWeek": ["Sunday"],
-      "opens": "08:00",
-      "closes": "13:00"
-    },
-    {
-      "@type": "OpeningHoursSpecification",
-      "dayOfWeek": ["Wednesday"],
-      "opens": "18:00",
-      "closes": "20:30"
-    }
-  ]
-}
-```
+---
 
-### B. Event Schema (`web/app/[page]/page.tsx` & `web/components/detail.tsx`)
-Enables Google Event rich results for conferences and services:
-- `@type`: `Event`
-- `name`: Title of the gathering (e.g. Believer's Gathering (BEGAT), Acts 13:2)
-- `startDate`: Scheduled start datetime in ISO 8601 format
-- `location`: Church address or conference venue
-- `organizer`: Glory Hills Community Church
+## 5. Media Alt-Text & Accessibility Standards
 
-### C. Sermon VideoObject Schema (`web/app/[page]/page.tsx` & `web/components/detail.tsx`)
-Enables Google Video search indexing and rich video cards in search results:
-- `@type`: `VideoObject`
-- `name`: Sermon title
-- `description`: Sermon overview
-- `thumbnailUrl`: YouTube high-resolution thumbnail (`https://i.ytimg.com/vi/{ID}/hqdefault.jpg`)
-- `uploadDate`: ISO 8601 published date
-- `embedUrl`: `https://www.youtube-nocookie.com/embed/{ID}`
-- `contentUrl`: Direct YouTube watch link
-
+* **Meaningful Descriptions**: Public images require meaningful descriptive alternative text.
+* **Filename Rejection**: Raw filenames (e.g. `banner.jpg`, `photo.png`) are rejected client- and server-side.
+* **Decorative Images**: Supported only when explicitly marked as decorative by the editor (`is_decorative = true`), which instructs assistive technology to ignore the image.

@@ -1,81 +1,39 @@
 # Google Search Console Setup Guide
 
-This guide walks the media team through claiming, verifying, and monitoring the church website on Google Search Console (GSC).
+This guide describes how to verify ownership of `https://www.ghccglobal.com` in Google Search Console and submit the sitemap.
 
 ---
 
-## 1. Adding the Property
+## 1. Primary Verification Method: DNS TXT Record (Recommended)
 
-1. Go to [Google Search Console](https://search.google.com/search-console).
-2. Click **Add Property**.
-3. Choose **URL prefix** and enter your production site URL:
-   `https://gloryhillscommunitychurch.org` (or current live domain).
+1. Log into [Google Search Console](https://search.google.com/search-console).
+2. Choose **Domain** property type and enter `ghccglobal.com`.
+3. Copy the `google-site-verification` TXT record token provided by Google.
+4. Add the TXT record in your domain registrar's DNS settings (e.g. Namecheap, Cloudflare, GoDaddy).
+5. Click **Verify** in Search Console.
 
 ---
 
-## 2. Verification Methods
+## 2. Alternative Fallback Method: HTML Meta Tag
 
-The codebase supports **HTML tag verification** natively without touching source code:
-
-### Method: HTML Tag (Recommended)
-1. In Search Console, select **HTML tag** as the verification method.
-2. Google provides a `<meta>` tag like:
-   `<meta name="google-site-verification" content="abcdef1234567890..." />`
-3. Copy only the `content` string (e.g. `abcdef1234567890...`).
-4. Set the environment variable in your deployment settings:
+If DNS management is inaccessible:
+1. In Search Console, select **URL prefix**: `https://www.ghccglobal.com`.
+2. Choose the **HTML tag** verification method.
+3. Copy the token string inside `content="..."`.
+4. In your hosting dashboard, set the environment variable:
    ```bash
-   GOOGLE_SEARCH_CONSOLE_VERIFICATION=abcdef1234567890...
+   GOOGLE_SEARCH_CONSOLE_VERIFICATION=your_token_here
    ```
-5. Trigger a deployment.
-6. Return to Search Console and click **Verify**.
-
-> [!NOTE]
-> The layout also supports DNS TXT record verification via your domain registrar (e.g. Cloudflare / Namecheap) if preferred by your web administrator.
+5. Trigger a deployment. The token will be rendered in `<meta name="google-site-verification" content="...">`.
+6. Click **Verify** in Search Console.
 
 ---
 
-## 3. Submitting the XML Sitemap
+## 3. Submit XML Sitemap
 
-1. In the Search Console sidebar, navigate to **Indexing** -> **Sitemaps**.
-2. In the **Add a new sitemap** input field, enter:
+1. In Search Console, navigate to **Sitemaps** in the left sidebar.
+2. Under "Add a new sitemap", enter:
+   ```text
+   https://www.ghccglobal.com/sitemap.xml
    ```
-   sitemap.xml
-   ```
-3. Click **Submit**.
-4. Status should show **Success**.
-5. Google will read all routes dynamically served by Next.js at `/sitemap.xml`, including:
-   - All static pages (`/`, `/about-us`, `/leadership`, `/sermons`, `/events`, `/give`, `/visit-us`, `/contact`, `/prayer-request`, `/plan-your-visit`, `/cookies`)
-   - All dynamic editorial pages
-   - All published sermon detail routes (`/sermons/[slug]`)
-   - All published event detail routes (`/events/[slug]`)
-   - All published photo gallery albums (`/gallery/[slug]`)
-
----
-
-## 4. Checking robots.txt
-
-Verify that `/robots.txt` is accessible and active:
-- Direct URL: `https://yourdomain.com/robots.txt`
-- In Search Console: Use the **robots.txt report** or URL Inspection.
-- Expected content:
-  ```txt
-  User-Agent: *
-  Allow: /
-  Disallow: /admin
-  Disallow: /api
-
-  Sitemap: https://yourdomain.com/sitemap.xml
-  ```
-- Public pages are fully accessible, while administrative routes are protected from crawler indexing.
-
----
-
-## 5. Ongoing Monitoring Workflow
-
-| Check Item | Frequency | What to Look For |
-|---|---|---|
-| **Coverage / Pages** | Monthly | Check for indexing spikes or 404 errors |
-| **Performance** | Bi-weekly | Top queries for church location, sermons, and service times |
-| **Enhancements** | Monthly | Validate that Videos and Events report zero critical schema errors |
-| **Security & Manual Actions** | Quarterly | Ensure "No issues detected" status remains clean |
-
+3. Click **Submit**. Google will periodically crawl and index new sermons, events, and pages.

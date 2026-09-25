@@ -2,7 +2,7 @@
 
 Deployment has not been performed. Obtain explicit approval before public deployment or DNS changes.
 
-1. Use Vercel with Root Directory `Gloryhills/web` if importing the parent repository, or `web` if importing this directory alone. Framework: Next.js. Node: 24.x. Install `npm ci`; build `npm run build`.
+1. Use Vercel with Root Directory `Gloryhills/web` if importing the parent repository, or `web` if importing this directory alone. Framework: Next.js. Node: >=20.0.0 (as declared in package.json). Install `npm ci`; build `npm run build`.
 2. Configure environments using ENVIRONMENT_VARIABLES.md. Use the confirmed canonical domain for NEXT_PUBLIC_SITE_URL. Keep preview deployments noindex and protect admin/private routes.
 3. Apply Supabase migrations, seed confirmed records, configure Auth and bootstrap super-admin. Run real anonymous/admin/super-admin, storage and submission verification.
 4. Complete legal/consent/retention review, confirm church content, giving accounts, media rights and sender settings. Missing content remains unpublished.
@@ -18,8 +18,8 @@ This Git repository is rooted at `ghccc`, so set Vercel **Root Directory** to
 `Gloryhills/web` (case-sensitive), not `Gloryhills` or the repository root.
 The app-level `web/vercel.json` runs `npm ci` and `npm run build` from that directory.
 Remove old dashboard command overrides containing `--prefix web` and output
-`web/.next`. Use Framework Preset Next.js, Node 24.x, and the default Next.js
-output directory. Package manifests pin the Node major to 24.x.
+`web/.next`. Use Framework Preset Next.js, Node >=20.0.0 (as declared in package.json), and the default Next.js
+output directory. Package manifests specify Node >=20.0.0.
 
 Commit and push these changes, then deploy the new commit without reusing the
 old build cache. The ESLint deprecation notice is unrelated to Next.js detection.

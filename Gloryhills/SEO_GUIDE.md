@@ -1,9 +1,61 @@
-# SEO guide
+# SEO Setup & Architecture Guide
 
-No WordPress plugin is needed. In each approved content record, use SEO title, meta description, Open Graph title/description, social image and noindex. Leave optional fields blank to use defaults. A social image can be an uploaded media filename or a local image path. Prefer landscape 1200×630 artwork.
+This document describes the search engine optimization (SEO) architecture, metadata rules, sitemap generation, and structured data standards for Glory Hills Community Church.
 
-Use a descriptive title and a concise summary. The search snippet is an illustration of the saved content, not a guarantee of Google's result. Check the actual public page after publishing. Noindex removes eligible content from the generated sitemap but does not make a page private; use Draft for privacy.
+---
 
-Production canonicals and sitemap depend on Vercel's NEXT_PUBLIC_SITE_URL. It must be the canonical HTTPS domain. Changing localhost environment files does not configure production.
+## 1. Canonical URLs & Production Origin Rules
 
-Homepage SEO override and all fixed-route behavior are not fully verified. Renamed slugs do not automatically create redirects. Rich Results and Search Console checks remain required; valid JSON alone is not a rich-results pass.
+* **Canonical Domain**: `https://www.ghccglobal.com`
+* **Production Origin Protection**: In production (`NODE_ENV === 'production'`), metadata generation and sitemap generation safely resolve to `https://www.ghccglobal.com`. The application will **never** silently fall back to `http://localhost:3000` in production.
+* **Development**: Local development environments safely default to `http://localhost:3000`.
+
+---
+
+## 2. Dynamic XML Sitemap (`/sitemap.xml`)
+
+* Generated dynamically at `/sitemap.xml`.
+* **Fixed Public Routes**:
+  * `/` (Home)
+  * `/about-us`
+  * `/leadership`
+  * `/meet-our-pastor`
+  * `/sermons`
+  * `/events`
+  * `/give`
+  * `/visit-us`
+  * `/contact`
+  * `/prayer-request`
+  * `/plan-your-visit`
+  * `/cookies`
+* **Dynamic Database Records**: Automatically includes published pages, sermons, events, and gallery albums.
+* **Strict Publication Filtering**:
+  * `draft` and `archived` records are excluded.
+  * Records with `published_at` in the future are excluded.
+  * Content with `noindex = true` is excluded.
+  * Admin, authentication, and password reset routes are strictly excluded.
+
+---
+
+## 3. Crawler Directives (`/robots.txt`)
+
+* **Public Crawlers**: Allowed on all public pages (`Allow: /`).
+* **Protected Paths**: Disallows crawler access to `/admin` and `/api`.
+* **Sitemap Reference**: References `https://www.ghccglobal.com/sitemap.xml`.
+* **Noindex Pages**: Administrative and auth routes explicitly emit `robots: {index: false, follow: true}`.
+
+---
+
+## 4. Structured Data (Schema.org)
+
+* **Church Organization**: Emitted on root layout with Church name, logo, official social channels, and headquarters address.
+* **Events**: Emitted on event details pages (`/events/[slug]`) with title, description, start date, Africa/Lagos timezone, and venue.
+* **Sermon VideoObject**: Emitted on sermon details pages (`/sermons/[slug]`) **only when the sermon external URL is a recognized video destination** (valid YouTube URL). Arbitrary HTTPS links (e.g. audio links, Spotify podcasts, notes) do not emit VideoObject markup.
+
+---
+
+## 5. Media Alt-Text & Accessibility Standards
+
+* **Meaningful Descriptions**: Public images require meaningful descriptive alternative text.
+* **Filename Rejection**: Raw filenames (e.g. `banner.jpg`, `photo.png`) are rejected client- and server-side.
+* **Decorative Images**: Supported only when explicitly marked as decorative by the editor (`is_decorative = true`), which instructs assistive technology to ignore the image.

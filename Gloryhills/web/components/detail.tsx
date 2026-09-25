@@ -76,7 +76,7 @@ export default async function Detail({kind, slug}: {kind: string; slug: string})
             }}
           />
         )}
-        {kind === 'sermons' && url && (
+        {kind === 'sermons' && url && isYouTube && (
           <script
             type="application/ld+json"
             dangerouslySetInnerHTML={{
@@ -85,11 +85,9 @@ export default async function Detail({kind, slug}: {kind: string; slug: string})
                 '@type': 'VideoObject',
                 name: row.title,
                 description: row.description,
-                thumbnailUrl: getYouTubeId(url)
-                  ? `https://i.ytimg.com/vi/${getYouTubeId(url)}/hqdefault.jpg`
-                  : `${origin()}/images/brand/default-social-share.jpg`,
+                thumbnailUrl: `https://i.ytimg.com/vi/${getYouTubeId(url)}/hqdefault.jpg`,
                 uploadDate: row.starts_at || row.published_at || '2026-01-01T00:00:00Z',
-                embedUrl: getYouTubeId(url) ? `https://www.youtube-nocookie.com/embed/${getYouTubeId(url)}` : url,
+                embedUrl: `https://www.youtube-nocookie.com/embed/${getYouTubeId(url)}`,
                 contentUrl: url,
               }),
             }}
