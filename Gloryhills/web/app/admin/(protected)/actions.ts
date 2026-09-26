@@ -3,6 +3,7 @@
 import {redirect} from 'next/navigation';
 import {revalidatePath} from 'next/cache';
 import {requireAdmin, serverDB} from '@/lib/supabase';
+import {MAX_MEDIA_BYTES,validMedia} from '@/lib/media-security.mjs';
 import {contentInput,mediaEditorAllowedKinds} from '@/lib/validation';
 
 export async function logout() {
@@ -23,6 +24,7 @@ export async function save(form: FormData) {
 
   const existing=id==='new'?null:(await db.from('content').select('data,kind,slug').eq('id',id).single()).data;
   if(id!=='new'&&!existing)redirect('/admin?error=forbidden');
+  if(role==='media_editor' && existing && !mediaEditorAllowedKinds.includes(existing.kind))redirect('/admin?error=forbidden');
   // Preserve structured content when the editor does not expose its JSON field.
   let data: Record<string, string> = existing?.data || {};
   try {
@@ -32,6 +34,8 @@ export async function save(form: FormData) {
   } catch {
     redirect(`/admin/edit/${id}?error=validation`);
   }
+
+  data.is_decorative = form.get('field_is_decorative') === 'true' ? 'true' : 'false';
 
   // SEO & Social fields into data envelope
   const ogTitle = String(form.get('og_title') || '').trim();
@@ -61,6 +65,7 @@ export async function save(form: FormData) {
   const parsed = contentInput.safeParse({
     ...Object.fromEntries(form),
     status,
+    image_alt: data.is_decorative === 'true' ? '' : String(form.get('image_alt') || '').trim(),
     data,
   });
 
@@ -97,8 +102,12 @@ export async function save(form: FormData) {
 }
 
 export async function archiveContent(form: FormData) {
-  const {db} = await requireAdmin('media_editor');
+  const {db,role} = await requireAdmin('media_editor');
   const id = String(form.get('id'));
+  if(role==='media_editor'){
+    const {data:row}=await db.from('content').select('kind').eq('id',id).single();
+    if(!row || !mediaEditorAllowedKinds.includes(row.kind))throw new Error('Forbidden');
+  }
   const {error} = await db.from('content').update({status: 'archived', published_at: null}).eq('id', id);
   if (error) throw new Error('Unable to archive content');
   revalidatePath('/', 'layout');
@@ -158,17 +167,17 @@ export async function upload(form: FormData) {
   const requested=String(form.get('redirect')||'');
   const redirectTarget=requested==='/admin/media'?requested:`/admin/edit/${/^(new|[0-9a-f-]{36})$/.test(id)?id:'new'}`;
 
-  if (!(file instanceof File) || file.size > 5242880 || !['image/jpeg', 'image/png', 'image/webp'].includes(file.type)) {
+  if (!(file instanceof File) || file.size > MAX_MEDIA_BYTES || file.size === 0 || !['image/jpeg', 'image/png', 'image/webp'].includes(file.type)) {
     redirect(`${redirectTarget}?error=upload`);
   }
 
   const bytes=new Uint8Array(await file.arrayBuffer());
-  const signature=file.type==='image/jpeg'?bytes[0]===255&&bytes[1]===216&&bytes[2]===255:file.type==='image/png'?[137,80,78,71,13,10,26,10].every((v,i)=>bytes[i]===v):new TextDecoder().decode(bytes.slice(0,4))==='RIFF'&&new TextDecoder().decode(bytes.slice(8,12))==='WEBP';
-  if(!signature)redirect(`${redirectTarget}?error=upload`);
+  if(!validMedia(bytes,file.type,file.name))redirect(`${redirectTarget}?error=upload`);
   const extension = {'image/jpeg': 'jpg', 'image/png': 'png', 'image/webp': 'webp'}[file.type]!;
   const path = `${crypto.randomUUID()}.${extension}`;
 
   const rawAlt = String(form.get('alt') || form.get('image_alt') || '').trim();
+  if(rawAlt.length>300)redirect(`${redirectTarget}?error=upload`);
   const safeAlt = /^[a-zA-Z0-9_-]+\.(jpg|jpeg|png|webp|gif|svg)$/i.test(rawAlt) ? '' : rawAlt;
   const metadata = safeAlt ? {alt: safeAlt} : undefined;
 

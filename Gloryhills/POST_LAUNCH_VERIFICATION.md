@@ -16,7 +16,7 @@ This document provides the mandatory step-by-step verification protocol for the 
 5. In the cookie banner at the bottom of the screen, click **Accept**.
 6. **After Consent**: Confirm that exactly one `gtm.js` script tag loads.
 7. Open a second tab to `https://www.ghccglobal.com/cookies`. Select **Decline** or revoke analytics consent.
-8. Switch back to the first tab. Confirm that the `#ghcc-gtm` script element is safely unmounted and further event tracking ceases.
+8. Switch back to the first tab. Confirm that the `#ghcc-gtm` script element is removed, the document reloads, and no tracking loader or subsequent vendor requests start after reload. Previously sent requests cannot be recalled.
 
 ---
 
@@ -26,7 +26,7 @@ This document provides the mandatory step-by-step verification protocol for the 
 2. Confirm the `page_view` event has fired with `{event: 'page_view', page_path: '/'}`.
 3. Test key interactions:
    * Click the YouTube sermon play button: verify `sermon_play_requested` is pushed.
-   * Click an online giving button: verify `online_giving_started` is pushed before any generic `give_click`.
+   * If an approved external checkout link exists, click it and verify `online_giving_started` is pushed instead of generic give_click. The internal /give placeholder is not checkout.
    * Click a giving method card and copy account number: verify `bank_details_copied` is pushed without account number parameters.
    * Submit a test contact form: verify `contact_form_submitted` is pushed without name, email, or message parameters.
 4. Navigate to `/prayer-request`: verify tracking is completely disabled and dataLayer events are suppressed.

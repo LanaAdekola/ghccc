@@ -6,15 +6,15 @@
     "dev": "next dev -p 3000",
     "build": "next build --webpack",
     "start": "next start -p 3000",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "tsc --noEmit --incremental false",
     "lint": "eslint .",
-    "test": "node --test tests/unit.test.mjs tests/validation.test.mjs tests/marketing.test.mjs tests/rls.test.mjs tests/marketing-rls.test.mjs tests/seo.test.mjs",
-    "test:unit": "node --test tests/unit.test.mjs tests/validation.test.mjs tests/seo.test.mjs",
-    "test:rls": "node --test tests/rls.test.mjs tests/marketing-rls.test.mjs",
-    "test:marketing": "node --test tests/marketing.test.mjs",
+    "test": "node --test tests/unit.test.mjs tests/validation.test.mjs tests/marketing.test.mjs tests/rls.test.mjs tests/marketing-rls.test.mjs tests/seo.test.mjs tests/security.test.mjs tests/auth.test.mjs tests/migration-chain.test.mjs tests/consent.test.mjs",
+    "test:unit": "node --test tests/unit.test.mjs tests/validation.test.mjs tests/seo.test.mjs tests/security.test.mjs tests/auth.test.mjs",
+    "test:rls": "node --test tests/rls.test.mjs tests/marketing-rls.test.mjs tests/migration-chain.test.mjs",
+    "test:marketing": "node --test tests/marketing.test.mjs tests/consent.test.mjs",
     "test:http": "node --test tests/http.test.mjs",
     "test:browser": "node --test tests/browser.test.mjs",
-    "test:live": "RUN_LIVE_TESTS=true node --test tests/live.test.mjs"
+    "test:live": "node --test tests/live.test.mjs"
   },
   "dependencies": {
     "@fontsource/barlow-condensed": "^5.3.0",

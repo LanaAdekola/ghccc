@@ -22,7 +22,7 @@ export default async function Edit({
   if (id !== 'new' && !row) notFound();
 
   // Role restriction: media_editor cannot edit financial or site settings
-  if (role === 'media_editor' && row && ['giving_methods', 'giving_campaigns', 'settings', 'seo'].includes(row.kind)) {
+  if (role === 'media_editor' && row && !mediaEditorAllowedKinds.includes(row.kind)) {
     redirect('/admin?error=forbidden');
   }
 
@@ -171,7 +171,7 @@ export default async function Edit({
           )}
 
           <label>
-            Image Alternative Text (Required when image is attached to published content)
+            Image Alternative Text (Required when a non-decorative image is attached)
             <input name="image_alt" defaultValue={row?.image_alt || ''} placeholder="Describe the image content for accessibility" />
             <small style={{color: '#666'}}>Required for WCAG AA compliance. Filenames (e.g. photo.jpg) are rejected.</small>
           </label>

@@ -1,7 +1,7 @@
 export const integrations = {
   ga: {title: 'Google Analytics 4', label: 'Measurement ID', pattern: /^G-[A-Z0-9]+$/, description: 'Understand website visits and engagement.'},
-  adsense: {title: 'Google AdSense', label: 'Publisher ID', pattern: /^ca-pub-\d{16}$/, description: 'Load the advertising platform. Ad approval and placements are managed separately in AdSense.'},
-  gtm: {title: 'Google Tag Manager', label: 'Container ID', pattern: /^GTM-[A-Z0-9]+$/, description: 'Manage tags centrally. When enabled, GA4, Google Ads and Meta must be configured inside GTM; their direct loaders are suppressed to prevent duplicates.'},
+  adsense: {title: 'Google AdSense', label: 'Publisher ID', pattern: /^ca-pub-\d{16}$/, description: 'Reference ID only. Approved tags and placements must be configured externally through GTM.'},
+  gtm: {title: 'Google Tag Manager', label: 'Container ID', pattern: /^GTM-[A-Z0-9]+$/, description: 'Manage tags centrally. GA4, Google Ads, Meta and AdSense must be configured inside GTM; no direct vendor loaders exist.'},
   meta: {title: 'Meta Pixel', label: 'Pixel ID', pattern: /^\d{5,20}$/, description: 'Measure consented activity for Meta campaigns.'},
   ads: {title: 'Google Ads', label: 'Conversion ID', pattern: /^AW-\d+$/, description: 'Track conversions for paid campaigns. This is different from AdSense.'},
 };

@@ -1,11 +1,12 @@
 import ContentImage from '@/components/content-image';
 import {notFound} from 'next/navigation';
 import {requireAdmin} from '@/lib/supabase';
+import {mediaEditorAllowedKinds} from '@/lib/validation';
 import {structuredFields,type Kind} from '@/lib/fields';
 export default async function Preview({params}:{params:Promise<{id:string}>}){
- const {db}=await requireAdmin();
+ const {db,role}=await requireAdmin();
  const {data:row}=await db.from('content').select('*').eq('id',(await params).id).single();
- if(!row)notFound();
+ if(!row || (role==='media_editor' && !mediaEditorAllowedKinds.includes(row.kind)))notFound();
  const data:Record<string,string>=row.data||{};
  const labels=new Map((structuredFields[row.kind as Kind]||[]).map(x=>[x.name,x.label]));
  const entries=Object.entries(data);

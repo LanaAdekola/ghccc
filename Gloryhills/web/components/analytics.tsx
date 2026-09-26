@@ -52,7 +52,7 @@ export function isTrackingAllowed(): boolean {
   if (consent !== 'granted') return false;
 
   // Exclude localhost/dev unless explicitly enabled for media team testing
-  const isLocal = ['localhost', '127.0.0.1', '::1'].includes(window.location.hostname);
+  const isLocal = ['localhost', '127.0.0.1', '::1', '[::1]'].includes(window.location.hostname);
   const isDebug =
     new URLSearchParams(window.location.search).has('gtm_debug') ||
     localStorage.getItem('ghcc-analytics-debug') === 'true';
@@ -110,7 +110,7 @@ export default function Analytics({config}: {config: Marketing}) {
     }
 
     function handleStorage(e: StorageEvent) {
-      if (e.key === 'ghcc-consent') {
+      if (e.key === 'ghcc-consent' || e.key === null) {
         const isGranted = e.newValue === 'granted';
         gtag('consent', 'update', {
           analytics_storage: isGranted ? 'granted' : 'denied',

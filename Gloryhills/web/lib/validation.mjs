@@ -63,7 +63,7 @@ export const contentInput = z
     (x) => {
       if (!x.image_url) return true;
       // If decorative is explicitly marked, empty or decorative alt text is allowed
-      if (x.data?.is_decorative === 'true') return true;
+      if (x.data?.is_decorative === 'true') return (x.image_alt || '').trim() === '';
       const alt = (x.image_alt || '').trim();
       if (!alt) return false;
       // Reject if alt text is merely a filename

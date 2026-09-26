@@ -32,7 +32,7 @@ export async function generateMetadata(): Promise<Metadata> {
     metadataBase: new URL(origin()),
     title: {default: churchName, template: `%s | ${churchName}`},
     description: 'Evangelizing the world, discipling the nations.',
-    robots: process.env.NEXT_PUBLIC_SITE_URL?.startsWith('https://')
+    robots: process.env.VERCEL_ENV === 'production' && process.env.NEXT_PUBLIC_SITE_URL === origin()
       ? {index: true, follow: true}
       : {index: false, follow: false},
     manifest: '/site.webmanifest',

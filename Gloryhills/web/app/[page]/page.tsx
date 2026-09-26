@@ -644,7 +644,7 @@ async function Giving() {
         <p className="eyebrow">ONLINE GIVING</p>
         <h2>Electronic Transfer</h2>
         <p>Fast, direct electronic transfer through your bank mobile app or internet banking platform.</p>
-        <Link className="button small light" href="/give" data-action="online-giving-start">
+        <Link className="button small light" href="/give">
           Online Giving Details
         </Link>
       </article>

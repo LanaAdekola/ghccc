@@ -4,7 +4,7 @@ Welcome to the Glory Hills Community Church web platform handover document. This
 
 ---
 
-## 1. What Has Been Installed & Configured
+## 1. Local capabilities; production verification pending
 
 1. **Google Tag Manager (GTM) Container Layer**: Single tag-management container dynamically loaded from published Supabase marketing settings when configured and enabled in `/admin/marketing`. The runtime does not load GTM from environment variables.
 2. **Interactive YouTube Sermon Embedding**: Embedded players supporting official church messages and archive playlists with privacy-respecting embeds (`youtube-nocookie.com`). Play requests emit `sermon_play_requested`.
@@ -12,10 +12,10 @@ Welcome to the Glory Hills Community Church web platform handover document. This
 4. **Lead Pastor Spotlight**: Dedicated home screen feature section introducing Pastor Tobi Omojowo — Apostle, Prophet and Psalmist — with direct links to his ministry channels and dedicated bio page (`/meet-our-pastor`).
 5. **Full SEO Architecture**: Automatic `/sitemap.xml`, `/robots.txt`, canonical URLs (`https://www.ghccglobal.com`), Open Graph / Twitter Card social previews, search icons/favicons, and Schema.org structured data for Church, Events, and Sermon VideoObjects.
 6. **Admin-Editable SEO & Alt Text**: In-dashboard control over `seo_title` and `seo_description`. Meaningful alt text is required for public images; raw filenames are rejected, and decorative images can be intentionally marked.
-7. **18 Data-Layer Engagement & Intent Events**: Safe event triggers covering congregational engagement (listening, giving intent, event registration, visit planning, phone/email contact, newsletter).
-8. **Strict Privacy Protection**: Client-side parameter filter blocking any transmission of names, emails, phones, prayer requests, bank accounts, or financial credentials.
+7. **19 Allowlisted Event Names**: See the generated dictionary for reachability and configuration prerequisites; event handlers cover congregational engagement (listening, giving intent, event registration, visit planning, phone/email contact, newsletter).
+8. **Strict Privacy Protection**: Client-side parameter filter limiting application event parameters and excluding names, emails, phones, prayer requests, bank accounts, or financial credentials.
 9. **Confidentiality Rule**: **Prayer requests are confidential pastoral communications and must NEVER be tracked.** The `/prayer-request` route disables the analytics engine.
-10. **Cookie Consent System**: User-friendly bottom banner on first visit linked to a granular `/cookies` preference page with cross-tab consent synchronization.
+10. **Cookie Consent System**: User-friendly bottom banner on first visit linked to a combined optional-services `/cookies` preference page with cross-tab consent synchronization.
 
 ---
 
@@ -56,3 +56,5 @@ The media team manages tracking directly inside the CMS at `/admin/marketing`:
   * Wednesday Prayer Meeting: 6:00 PM – 8:30 PM (WAT)
   * Friday Disciple’s Hub: 6:00 PM – 8:00 PM (WAT)
 * **Isheri-Magodo**: 6 Ogun River Road, Isheri-Magodo, Lagos.
+
+Production rollout and test limitations are recorded in PRODUCTION_EXECUTION_PLAN.md and PRODUCTION_READINESS_AUDIT.md. A saved identifier is not evidence that a tag is published or received.

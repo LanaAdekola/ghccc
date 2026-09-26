@@ -2,6 +2,7 @@
 import {redirect} from 'next/navigation';
 import {serverDB} from '@/lib/supabase';
 import {configured} from '@/lib/content';
+import {isAdminRole} from '@/lib/auth-policy.mjs';
 export async function login(form:FormData) {
   if (!configured()) redirect('/admin/login?error=setup');
   const email=String(form.get('email')||'').trim();
@@ -15,7 +16,7 @@ export async function login(form:FormData) {
       failure = error && error.status && error.status >= 500 ? 'connection' : 'credentials';
     } else {
       const {data:role,error:roleError}=await db.from('user_roles').select('role').eq('user_id',data.user.id).single();
-      if (roleError || !role || !['super_admin','content_admin','media_editor','marketing_admin'].includes(role.role)) {
+      if (roleError || !role || !isAdminRole(role.role)) {
         await db.auth.signOut();
         failure='access';
       }

@@ -93,7 +93,7 @@ export const EVENT_REGISTRY = [
   },
   {
     name: 'giving_method_selected',
-    trigger: 'Clicking or focusing a church-approved giving method card (.giving-method-card)',
+    trigger: 'Clicking a church-approved giving method card (.giving-method-card)',
     parameters: [],
     implemented: true,
     reachable: true,
@@ -196,7 +196,7 @@ export const EVENT_REGISTRY = [
     trigger: 'Successful server response from event registration inquiry (PublicForm kind="event-interest")',
     parameters: [],
     implemented: true,
-    reachable: true,
+    reachable: false,
     intendedGA4: true,
     intendedGoogleAds: true,
     privacyConstraints: 'Confirmed event inquiry. Registrant name and email are strictly excluded.',
@@ -249,7 +249,7 @@ export function sanitizeEventPayload(event, payload) {
       }
 
       // Only approved route parameters; never accept arbitrary payload values.
-      if (['route', 'page_path'].includes(key) && typeof val === 'string' && /^\/[a-z0-9/_-]*$/.test(val)) {
+      if (EVENT_REGISTRY.find((entry) => entry.name === event).parameters.includes(key) && typeof val === 'string' && /^\/(?:[a-z0-9_-]+(?:\/[a-z0-9_-]+)*)?$/.test(val) && !/^\/(admin|auth|prayer-request)(\/|$)/.test(val)) {
         sanitized[key] = val;
       }
     }

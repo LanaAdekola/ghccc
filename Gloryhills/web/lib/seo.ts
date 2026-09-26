@@ -1,4 +1,3 @@
-import type {Metadata} from 'next';
 
 export interface MetaOptions {
   ogTitle?: string;

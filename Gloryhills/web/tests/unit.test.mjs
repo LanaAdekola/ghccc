@@ -80,7 +80,7 @@ test('Event Payload Sanitization and Strict Privacy Filter', () => {
   };
 
   const cleaned = sanitizeEventPayload('contact_form_submitted', dirtyPayload);
-  assert.deepEqual(cleaned, {event: 'contact_form_submitted', page_path: '/contact'});
+  assert.deepEqual(cleaned, {event: 'contact_form_submitted'});
   assert.equal(Object.prototype.hasOwnProperty.call(cleaned, 'name'), false);
   assert.equal(Object.prototype.hasOwnProperty.call(cleaned, 'email'), false);
   assert.equal(Object.prototype.hasOwnProperty.call(cleaned, 'phone'), false);

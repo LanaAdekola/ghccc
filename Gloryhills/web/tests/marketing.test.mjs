@@ -34,7 +34,8 @@ test('GTM is the only loader even when all direct services are enabled', () => {
 
 test('GTM loads once, prevents duplicate script injection, and unloads cleanly', () => {
   const elements = new Map();
-  globalThis.window = {dataLayer: []};
+  let reloads = 0;
+  globalThis.window = {dataLayer: [], location: {reload() { reloads++; }}};
   globalThis.document = {
     getElementById: (id) => elements.get(id),
     createElement: () => ({
@@ -68,12 +69,17 @@ test('GTM loads once, prevents duplicate script injection, and unloads cleanly',
   assert.equal(elements.size, 0);
   assert.equal(window.ghccMarketingSignature, undefined);
 
-  // Calling install with empty / disabled config also unloads
+  assert.equal(reloads, 1, 'executed scripts require full document teardown');
+  installMarketing(config);
+  assert.equal(elements.size, 0, 'cannot reinstall while reload is pending');
+  // Simulate a fresh document. Disabling an active config also reloads.
+  delete window.ghccMarketingReloading;
   installMarketing(config);
   assert.equal(elements.size, 1);
   installMarketing({});
   assert.equal(elements.size, 0);
 
+  assert.equal(reloads, 2);
   delete globalThis.window;
   delete globalThis.document;
 });

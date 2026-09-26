@@ -1,14 +1,12 @@
 const churchName = 'Glory Hills Community Church';
 
 export function origin() {
-  const configured = (process.env.NEXT_PUBLIC_SITE_URL || '').trim().replace(/\/+$/, '');
-  if (process.env.NODE_ENV === 'production') {
-    if (configured && !configured.includes('localhost') && !configured.includes('127.0.0.1')) {
-      return configured;
-    }
-    return 'https://www.ghccglobal.com';
-  }
-  return configured || 'http://localhost:3000';
+  if (process.env.NODE_ENV === 'production') return 'https://www.ghccglobal.com';
+  const configured = process.env.NEXT_PUBLIC_SITE_URL;
+  if (!configured) return 'http://localhost:3000';
+  const url = new URL(configured);
+  if (!['http:', 'https:'].includes(url.protocol) || url.username || url.password || url.pathname !== '/' || url.search || url.hash) throw new Error('Invalid site origin.');
+  return url.origin;
 }
 
 export function meta(title, description, path, options) {

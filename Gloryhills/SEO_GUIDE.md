@@ -42,7 +42,7 @@ This document describes the search engine optimization (SEO) architecture, metad
 * **Public Crawlers**: Allowed on all public pages (`Allow: /`).
 * **Protected Paths**: Disallows crawler access to `/admin` and `/api`.
 * **Sitemap Reference**: References `https://www.ghccglobal.com/sitemap.xml`.
-* **Noindex Pages**: Administrative and auth routes explicitly emit `robots: {index: false, follow: true}`.
+* **Noindex Pages**: Admin pages emit noindex,nofollow; the auth callback is a no-store redirect, not an indexable content page. Public indexing requires VERCEL_ENV=production and the canonical NEXT_PUBLIC_SITE_URL; previews are noindex.
 
 ---
 
@@ -57,5 +57,5 @@ This document describes the search engine optimization (SEO) architecture, metad
 ## 5. Media Alt-Text & Accessibility Standards
 
 * **Meaningful Descriptions**: Public images require meaningful descriptive alternative text.
-* **Filename Rejection**: Raw filenames (e.g. `banner.jpg`, `photo.png`) are rejected client- and server-side.
-* **Decorative Images**: Supported only when explicitly marked as decorative by the editor (`is_decorative = true`), which instructs assistive technology to ignore the image.
+* **Filename Rejection**: Raw filenames (e.g. `banner.jpg`, `photo.png`) are rejected by server-action validation and the forward database constraint.
+* **Decorative Images**: Supported only when explicitly marked as decorative by the editor (`is_decorative = true`), which saves empty alt text for assistive technology. Legacy invalid records are preserved by a NOT VALID database check until editors correct them.

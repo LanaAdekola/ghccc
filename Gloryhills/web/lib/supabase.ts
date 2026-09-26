@@ -3,6 +3,7 @@ import {createServerClient} from '@supabase/ssr';
 import {cookies} from 'next/headers';
 import {redirect} from 'next/navigation';
 import {configured} from './content';
+import {isAdminRole} from './auth-policy.mjs';
 
 export type AdminRole = 'media_editor' | 'content_admin' | 'super_admin' | 'marketing_admin';
 
@@ -44,7 +45,7 @@ export async function requireAdmin(minRole: AdminRole = 'media_editor') {
   if (!roleRow) redirect('/admin/login?error=access');
 
   const rawRole = roleRow.role as string;
-  if (!(rawRole in roleRank)) redirect('/admin/login?error=access');
+  if (!isAdminRole(rawRole)) redirect('/admin/login?error=access');
   const role = rawRole as AdminRole;
   if (minRole !== 'marketing_admin' && roleRank[role] < roleRank[minRole]) {
     redirect(role === 'marketing_admin' ? '/admin/marketing' : '/admin?error=forbidden');
