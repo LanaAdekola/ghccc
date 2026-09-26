@@ -14,7 +14,9 @@ const roleRank: Record<AdminRole, number> = {
   super_admin: 3,
 };
 
-export async function serverDB() {
+export type CookieMutationHandler = (items: Array<{name: string; value: string; options?: any}>) => void;
+
+export async function serverDB(onCookieSet?: CookieMutationHandler) {
   if (!configured()) throw new Error('Supabase is not configured');
   const jar = await cookies();
   return createServerClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!, {
@@ -27,6 +29,9 @@ export async function serverDB() {
           items.forEach(({name, value, options}) => jar.set(name, value, options));
         } catch {
           /* Server components cannot refresh cookies; login/actions can. */
+        }
+        if (onCookieSet) {
+          onCookieSet(items);
         }
       },
     },

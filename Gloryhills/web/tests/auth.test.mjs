@@ -28,14 +28,16 @@ test('real authorization verifies user and exact role; cookie adapter persists s
  user=null;await assert.rejects(requireAdmin(),checkRedirect('/admin/login'));
  await serverDB();assert.equal(adapter.getAll()[0].name,'session');adapter.setAll([{name:'refreshed',value:'local-only',options:{httpOnly:true}}]);assert.equal(writes[0][0],'refreshed');
 });
-test('PKCE callback uses canonical destination, rejects attacker origin before code exchange',async()=>{
- let exchanged=0;
+test('PKCE and OTP callback uses canonical destination, rejects attacker origin before exchange',async()=>{
+ let exchanged=0, verified=0;
  class NextResponse extends Response {static redirect(url){return new NextResponse(null,{status:307,headers:{location:String(url)}});}}
- const {GET}=loadTS('app/auth/callback/route.ts',{'next/server':{NextResponse},'@/lib/supabase':{serverDB:async()=>({auth:{exchangeCodeForSession:async()=>{exchanged++;return {error:null};}}})},'@/lib/auth-policy.mjs':{recoveryOrigin:()=>policy.recoveryOrigin({NODE_ENV:'production',NEXT_PUBLIC_SITE_URL:policy.PRODUCTION_ORIGIN})}});
+ const {GET}=loadTS('app/auth/callback/route.ts',{'next/server':{NextResponse},'@/lib/supabase':{serverDB:async()=>({auth:{exchangeCodeForSession:async()=>{exchanged++;return {error:null};},verifyOtp:async()=>{verified++;return {error:null};}}})},'@/lib/auth-policy.mjs':{recoveryOrigin:()=>policy.recoveryOrigin({NODE_ENV:'production',NEXT_PUBLIC_SITE_URL:policy.PRODUCTION_ORIGIN})}});
  const request=url=>({nextUrl:new URL(url),url});
  let response=await GET(request('https://attacker.test/auth/callback?code=local-only'));assert.equal(response.status,400);assert.equal(exchanged,0);
  response=await GET(request(policy.PRODUCTION_ORIGIN+'/auth/callback?code=local-only&next=https://attacker.test'));
  assert.equal(response.headers.get('location'),policy.PRODUCTION_ORIGIN+'/admin/reset-password');assert.equal(exchanged,1);assert.equal(response.headers.get('cache-control'),'no-store');
+ response=await GET(request(policy.PRODUCTION_ORIGIN+'/auth/callback?token_hash=token-123&type=recovery'));
+ assert.equal(response.headers.get('location'),policy.PRODUCTION_ORIGIN+'/admin/reset-password');assert.equal(verified,1);
  response=await GET(request(policy.PRODUCTION_ORIGIN+'/auth/callback'));assert.ok(response.headers.get('location').endsWith('?error=expired'));
 });
 test('proxy refresh writes cookies to both request and response, marks response private',async()=>{
