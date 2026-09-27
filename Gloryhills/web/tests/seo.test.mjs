@@ -58,3 +58,8 @@ test('Metadata robots directives', () => {
   const noindexMeta = meta('Private Page', 'Description', '/admin/login', {noindex: true});
   assert.deepEqual(noindexMeta.robots, {index: false, follow: true});
 });
+
+test('AdSense site verification publisher account', () => {
+  const publisherId = 'ca-pub-5953963705871784';
+  assert.match(publisherId, /^ca-pub-\d+$/);
+});

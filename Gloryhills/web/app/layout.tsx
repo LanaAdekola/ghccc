@@ -32,7 +32,7 @@ export async function generateMetadata(): Promise<Metadata> {
     metadataBase: new URL(origin()),
     title: {default: churchName, template: `%s | ${churchName}`},
     description: 'Evangelizing the world, discipling the nations.',
-    robots: process.env.VERCEL_ENV === 'production' && process.env.NEXT_PUBLIC_SITE_URL === origin()
+    robots: process.env.NEXT_PUBLIC_SITE_URL?.startsWith('https://')
       ? {index: true, follow: true}
       : {index: false, follow: false},
     manifest: '/site.webmanifest',
@@ -41,6 +41,9 @@ export async function generateMetadata(): Promise<Metadata> {
       apple: '/apple-touch-icon.png',
     },
     verification: gscVerification ? {google: gscVerification} : undefined,
+    other: {
+      'google-adsense-account': 'ca-pub-5953963705871784',
+    },
   };
 
   return {

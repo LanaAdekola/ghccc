@@ -9,6 +9,8 @@ test('production HTTP routes, server metadata, redirects, forms, icons and prote
  for(const path of ['/missing','/sermons/unpublished','/events/missing','/gallery/missing','/ministries'])assert.equal((await fetch(base+path)).status,404,path);
  for(const path of ['/admin','/admin/edit/new','/admin/preview/any','/admin/marketing','/admin/media-tools','/admin/media','/admin/audit-logs','/admin/guide/MEDIA_TEAM_HANDOFF']){const r=await fetch(base+path,{redirect:'manual'});assert.equal(r.status,307);assert.equal(r.headers.get('location'),'/admin/login');}const admin=await(await fetch(base+'/admin/login')).text();assert.ok(admin.includes('noindex'));
  const forged=await fetch(base+'/api/submissions',{method:'POST',headers:{origin:'https://attacker.example'},body:'{}'});assert.equal(forged.status,403);
- for(const asset of ['/favicon.ico','/favicon-16x16.png','/favicon-32x32.png','/favicon-48x48.png','/apple-touch-icon.png','/icon-192.png','/icon-512.png','/site.webmanifest','/images/brand/default-social-share.jpg'])assert.equal((await fetch(base+asset)).status,200,asset);
+ for(const asset of ['/favicon.ico','/favicon-16x16.png','/favicon-32x32.png','/favicon-48x48.png','/apple-touch-icon.png','/icon-192.png','/icon-512.png','/site.webmanifest','/images/brand/default-social-share.jpg','/ads.txt'])assert.equal((await fetch(base+asset)).status,200,asset);
+ const adsTxt = await (await fetch(base + '/ads.txt')).text();
+ assert.equal(adsTxt.trim(), 'google.com, pub-5953963705871784, DIRECT, f08c47fec0942fa0');
  const sitemap=await(await fetch(base+'/sitemap.xml')).text();assert.ok(sitemap.includes('/visit-us'));assert.ok(sitemap.includes('/meet-our-pastor'));assert.ok(!sitemap.includes('/admin'));assert.ok((await(await fetch(base+'/robots.txt')).text()).includes('Disallow: /admin'));
 });
